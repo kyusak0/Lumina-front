@@ -1,7 +1,5 @@
-import Header from "./components/Header";
-import mainPage from "./pages/mainPage";
-
 import MainLayout from "./layouts/mainLayout";
+import FormAuth from "./components/formAuth";
 
 export default function Home() {
   return (
@@ -9,6 +7,7 @@ export default function Home() {
         <h1>
           Hello world!
         </h1>
+        <FormAuth />
       </MainLayout>
   );
 }

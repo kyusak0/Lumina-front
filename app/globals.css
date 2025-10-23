@@ -14,8 +14,6 @@
 }
 
 *{
-  padding: 0;
-  margin: 0;
   scroll-behavior: smooth;
   box-sizing: border-box;
 }
@@ -42,7 +40,11 @@ header + main {
   margin-top: 100px;
 }
 
-button {
+button{
+  cursor: pointer;
+}
+
+.btn {
   width: 220px;
   height: 60px;
   color: var(--background);

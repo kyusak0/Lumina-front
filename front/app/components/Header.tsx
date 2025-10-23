@@ -1,9 +1,8 @@
-import React, { FC } from 'react'
 import Image from 'next/image'
 
 import logoImage from '../assets/images/logo.svg'
 
-const Header: FC = () => {
+export default function Header() {
     return (
         <header className="flex items-center">
             <Image
@@ -20,5 +19,3 @@ const Header: FC = () => {
         </header>
     )
 }
-
-export default Header;

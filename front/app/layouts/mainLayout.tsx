@@ -1,14 +1,18 @@
 import Header from "../components/Header";
 
-export default function mainLayout({
-    children,
-}: {
-    children: React.ReactNode
-}) {
-    return (
-        <>
-            <Header />
-            <main>{children}</main>
-        </>
-    )
+import { ReactNode } from "react";
+
+interface mainLayoutProps {
+    children: ReactNode;
+}
+
+export default function mainLayout({ children }: mainLayoutProps) {
+  return (
+    <html>
+      <body>
+        <Header />
+        <main>{children}</main>
+      </body>
+    </html>
+  );
 }

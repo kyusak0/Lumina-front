@@ -2,7 +2,6 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
   --main: #023859;
   --secondary: #26658C;
 }
@@ -37,6 +36,10 @@ header {
   height: 100px;
   justify-content: space-between;
   padding: 20px 60px;
+}
+
+header + main {
+  margin-top: 100px;
 }
 
 button {

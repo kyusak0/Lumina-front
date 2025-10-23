@@ -1,15 +1,14 @@
 import Header from "./components/Header";
 import mainPage from "./pages/mainPage";
 
+import MainLayout from "./layouts/mainLayout";
 
 export default function Home() {
-  return (<>
-  <Header />
-  <h1>
-      123
-    </h1>
-  </>
-    
-    
+  return (
+      <MainLayout>
+        <h1>
+          Hello world!
+        </h1>
+      </MainLayout>
   );
 }

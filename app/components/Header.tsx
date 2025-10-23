@@ -12,7 +12,7 @@ export default function Header() {
                 height='60' />
 
             <div className="">
-                <button>
+                <button className='btn'>
                     Войти
                 </button>
             </div>

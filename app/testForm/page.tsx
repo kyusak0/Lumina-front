@@ -20,7 +20,7 @@ export default function testFormAuth() {
             .catch(err => console.error("Ошибка:", err));
     }, []);
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: any) => {
         event.preventDefault();
         try {
             const response = await api.post("/form", { name, email, pass, rePass, policy });

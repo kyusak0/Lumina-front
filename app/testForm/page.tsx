@@ -7,12 +7,18 @@ import logoImage from '../assets/images/logo.svg'
 import styles from '../components/form.module.css'
 
 export default function testFormAuth() {
+interface IProduct{
+    id: string;
+    name: string;
+}
+
     const [userName, setUserName] = useState('');
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [rePass, setRePass] = useState('');
     const [policy, setPolicy] = useState('');
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState<IProduct[]>([]);
+    
 
     useEffect(() => {
         api.get("/catalog")
@@ -92,6 +98,7 @@ export default function testFormAuth() {
                 ) : (
                     <ul>
                         {products.map(product => (
+                            
                             <li key={product.id}>{product.name}</li>
                         ))}
                     </ul>

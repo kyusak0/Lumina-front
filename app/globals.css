@@ -19,7 +19,7 @@
 }
 
 body {
-  background: var(--background);
+  /* background: var(--background); */
   color: var(--main);
   font-family: Roboto, sans-serif;
   max-width: 1920px;

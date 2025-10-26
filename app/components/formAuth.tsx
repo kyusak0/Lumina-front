@@ -55,7 +55,7 @@ export default function formAuth() {
                         </div>
                         <div className="form form-reg p-4">
                             <h2 className='text-4xl mb-8 text-center'>Войти</h2>
-                            <form action="/profile">
+                            <form action="/profile" method='get'>
                                 <div className={styles.inputWrappers}>
                                     <div className={styles.inputWrapper}>
                                         <input placeholder='' type="text" name="username" id="username" />
@@ -72,7 +72,8 @@ export default function formAuth() {
                                         <label htmlFor="">pass</label>
                                     </div>
                                     <div className={styles.btns}>
-                                        <button type="submit">Войти</button></div>
+                                        <button type="submit">Войти</button>
+                                    </div>
                                 </div>
                             </form>
                         </div>

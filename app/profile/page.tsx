@@ -24,10 +24,10 @@ export default function profile() {
                     имя: {name}
                 </p>
                 <p>
-                    почта: {name} @mail.com
+                    почта: {email}
                 </p>
                 <p>
-                    пароль: {name}
+                    пароль: {pass}
                 </p>
             </MainLayout>
         </>)

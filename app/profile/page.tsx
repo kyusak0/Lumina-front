@@ -5,13 +5,32 @@ import Link from "next/link";
 import MainLayout from "../layouts/mainLayout";
 import { useSearchParams } from "next/navigation";
 
-export default function profile() {
 
+function ProfileContent() {
     const searchParams = useSearchParams();
 
     const name = searchParams.get('username');
     const email = searchParams.get('email');
     const pass = searchParams.get('pass');
+    return (
+        <>
+            <p> имя: {name || 'нет данных'} </p>
+            <p> почта: {email || 'нет данных'} </p>
+            <p> пароль: {pass || 'нет данных'} </p>
+        </>)
+}
+
+function Fallback() {
+    return (
+        <>
+            <p> имя: Загрузка... </p>
+            <p> почта: Загрузка... </p>
+            <p> пароль: Загрузка... </p>
+        </>)
+}
+export default function profile() {
+
+
     return (
         <>
 
@@ -22,16 +41,8 @@ export default function profile() {
                 <h1 className="text-4xl">
                     this a Profile's Page
                 </h1>
-                <Suspense>
-                    <p>
-                        имя: {name}
-                    </p>
-                    <p>
-                        почта: {email}
-                    </p>
-                    <p>
-                        пароль: {pass}
-                    </p>
+                <Suspense fallback={<Fallback />}>
+                    <ProfileContent />
                 </Suspense>
             </MainLayout>
         </>)

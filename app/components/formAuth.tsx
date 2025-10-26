@@ -24,7 +24,7 @@ export default function formAuth() {
                     <div className={styles.forms}>
                         <div className="form form-reg p-4">
                             <h2 className='text-4xl mb-8 text-center'>Регистрация</h2>
-                            <form action="">
+                            <form action="/profile" method='get'>
                                 <div className={styles.inputWrappers}>
                                     <div className={styles.inputWrapper}>
                                         <input placeholder='' type="text" name="username" id="username" />
@@ -55,7 +55,7 @@ export default function formAuth() {
                         </div>
                         <div className="form form-reg p-4">
                             <h2 className='text-4xl mb-8 text-center'>Войти</h2>
-                            <form action="">
+                            <form action="/profile">
                                 <div className={styles.inputWrappers}>
                                     <div className={styles.inputWrapper}>
                                         <input placeholder='' type="text" name="username" id="username" />

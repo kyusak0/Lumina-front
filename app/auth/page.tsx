@@ -7,38 +7,39 @@ import logoImage from '../assets/images/logo.svg'
 import styles from '../components/form.module.css'
 
 export default function AuthPage() {
-    const [isLogin, setIsLogin] = useState(false);
     const [form, setForm] = useState({
         userName: "",
         email: "",
         login: "",
-        pass: "",
-        rePass: "",
+        password: "",
+        rePassword: "",
     });
-
     const handleChange = (e: any) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    
     const handleRegister = async (e: any) => {
         e.preventDefault();
         try {
             await getCSRF();
-            await api.post("/api/register", form);
-            alert("Регистрация прошла успешно");
-            setIsLogin(true);
+            await api.post("/register", form);
+            alert("регистрация успешна");
         } catch (err: any) {
-            alert(err.response?.data?.message || "Ошибка регистрации");
+            alert(err.response?.data?.message || "Ошибка входа");
         }
+        
+        
+        
     };
 
     const handleLogin = async (e: any) => {
         e.preventDefault();
         try {
             await getCSRF();
-            const res = await api.post("/api/login", {
+            const res = await api.post("/login", {
                 login: form.login,
-                pass: form.pass,
+                password: form.password,
             });
             localStorage.setItem("token", res.data.token);
             alert("Авторизация успешна");
@@ -54,56 +55,54 @@ export default function AuthPage() {
             <div className="flex mt-10">
                 <div className="flex mx-auto gap-10">
                     <div className="form form-reg p-4">
-                        <h2 className='text-4xl mb-8 text-center'>Регистрация</h2>
-                        {isLogin ? (
+                        <h2 className='text-4xl mb-8 text-center'>Регистрация </h2>
 
-                            <form onSubmit={handleLogin}>
-                                <div className={styles.inputWrappers}>
-                                    <div className={styles.inputWrapper}>
-                                        <input placeholder='' 
-                                            type="text"
-                                            name="login"
-                                            onChange={handleChange} />
-                                        <label htmlFor="">Email или Username</label>
-                                    </div>
-                                    <div className={styles.inputWrapper}>
-                                        <input placeholder='' type="text" name="pass" id="pass" onChange={handleChange} />
-                                        <label htmlFor="">pass</label>
-                                    </div>
+                        {/* <form onSubmit={handleLogin}>
+                            <div className={styles.inputWrappers}>
+                                <div className={styles.inputWrapper}>
+                                    <input placeholder=''
+                                        type="text"
+                                        name="login"
+                                        onChange={handleChange} />
+                                    <label htmlFor="">Email или Username</label>
                                 </div>
-                                <button type="submit">Войти</button>
-                                <p onClick={() => setIsLogin(false)}>Нет аккаунта? Зарегистрироваться</p>
-                            </form>
-                        ) : (
-                            <form onSubmit={handleRegister}>
-                                <div className={styles.inputWrappers}>
-                                    <div className={styles.inputWrapper}>
-                                        <input placeholder='' type="text" name="username" id="username" onChange={handleChange} />
-                                        <label htmlFor="">username</label>
-                                    </div>
-                                    <div className={styles.inputWrapper}>
-                                        <input placeholder='' type="email" name="email" id="email" onChange={handleChange} />
-                                        <label htmlFor="email">
-                                            email
-                                        </label>
-                                    </div>
-                                    <div className={styles.inputWrapper}>
-                                        <input placeholder='' type="text" name="pass" id="pass" onChange={handleChange} />
-                                        <label htmlFor="">pass</label>
-                                    </div>
-                                    <div className={styles.inputWrapper}>
-                                        <input placeholder='' type="text" name="reppass" id="reppass" onChange={handleChange} />
-                                        <label htmlFor="reppass">reppass</label>
-                                    </div>
-                                    <div className="ml-5 flex gap-2">
-                                        <input type="checkbox" name="policy" id="policy" onChange={handleChange} />
-                                        <label htmlFor="policy">policy</label>
-                                    </div>
-                                    <div className={styles.btns}>
-                                        <button type="submit">Регистрация</button></div>
+                                <div className={styles.inputWrapper}>
+                                    <input placeholder='' type="text" name="pass" id="pass" onChange={handleChange} />
+                                    <label htmlFor="">pass</label>
                                 </div>
-                            </form>
-                        )}
+                            </div>
+                            <button type="submit">Войти</button>
+                            <p>Нет аккаунта? Зарегистрироваться</p>
+                        </form> */}
+                        <form onSubmit={handleRegister}>
+                            <div className={styles.inputWrappers}>
+                                <div className={styles.inputWrapper}>
+                                    <input placeholder='' type="text" name="userName" id="username" onChange={handleChange} />
+                                    <label htmlFor="">username</label>
+                                </div>
+                                <div className={styles.inputWrapper}>
+                                    <input placeholder='' type="email" name="email" id="email" onChange={handleChange} />
+                                    <label htmlFor="email">
+                                        email
+                                    </label>
+                                </div>
+                                <div className={styles.inputWrapper}>
+                                    <input placeholder='' type="text" name="password" id="password" onChange={handleChange} />
+                                    <label htmlFor="">pass</label>
+                                </div>
+                                <div className={styles.inputWrapper}>
+                                    <input placeholder='' type="text" name="rePassword" id="rePassword" onChange={handleChange} />
+                                    <label htmlFor="rePassword">reppass</label>
+                                </div>
+                                <div className="ml-5 flex gap-2">
+                                    <input type="checkbox" name="policy" id="policy" onChange={handleChange} />
+                                    <label htmlFor="policy">policy</label>
+                                </div>
+                                <div className={styles.btns}>
+                                    <button type="submit">Регистрация</button></div>
+                            </div>
+                        </form>
+                        
                     </div>
                     <div className={styles.formTitle}>
                         <div className={styles.formTitleTop}>

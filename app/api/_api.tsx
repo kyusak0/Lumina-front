@@ -2,22 +2,15 @@ import axios from "axios";
 
 
 const api = axios.create({
-    baseURL: "http://127.0.0.1:8001.api",
+    baseURL: "http://127.0.0.1:8001/api",
+    withCredentials:true,
 });
 
-export const getCSRF = async () => {
-    await api.get("/csrf-token")
-};
-api.interceptors.request.use(config => {
-    const token = localStorage.getItem("token");
-    if (token) {
-        config.headers.Authorization =`Bearer ${ token }`;
-    }
-    return config;
-}, error => {
-    console.log(error)
-    return Promise.reject(error);
-    
-});
+export async function getCSRF() {
+    await axios.get("http://127.0.0.1:8001/sanctum/csrf-cookie", {
+      withCredentials: true,
+    });
+  }
+
 
 export default api;

@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react'
 import Link from "next/link";
 import MainLayout from "../layouts/mainLayout";
 import { useSearchParams } from "next/navigation";
@@ -13,6 +14,7 @@ export default function profile() {
     const pass = searchParams.get('pass');
     return (
         <>
+
             <MainLayout>
                 <Link href="/">
                     home
@@ -20,15 +22,17 @@ export default function profile() {
                 <h1 className="text-4xl">
                     this a Profile's Page
                 </h1>
-                <p>
-                    имя: {name}
-                </p>
-                <p>
-                    почта: {email}
-                </p>
-                <p>
-                    пароль: {pass}
-                </p>
+                <Suspense>
+                    <p>
+                        имя: {name}
+                    </p>
+                    <p>
+                        почта: {email}
+                    </p>
+                    <p>
+                        пароль: {pass}
+                    </p>
+                </Suspense>
             </MainLayout>
         </>)
 }

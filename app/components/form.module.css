@@ -1,9 +1,16 @@
+.forms {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 100px;
+}
+
 .form {
     margin-top: 40px !important;
     max-width: 1150px;
 }
 
-.inputWrappers{
+.inputWrappers {
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -23,6 +30,7 @@
 
 .inputWrapper label {
     position: absolute;
+    z-index: 1;
     top: 0;
     left: 20px;
     pointer-events: none;
@@ -37,8 +45,25 @@
     left: 10px;
 }
 
-.formTitle{
+.formBackLeft,
+.formBackRight {
+    position: relative;
+    z-index: 2;
+    left: -1100px;
+
+
+    transition: 0.3s;
+}
+
+.formBackRight {
+    left: -550px;
+
+}
+
+.formTitle {
+    position: absolute;
     width: 550px;
+height: 100%;
     background-color: #023859;
     display: flex;
     flex-direction: column;
@@ -46,14 +71,28 @@
     justify-content: space-between;
     padding: 40px;
     color: white;
+}
 
+.formBackLeft .formTitle {
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+}
+
+.formBackRight .formTitle {
     border-top-left-radius: 100px;
     border-bottom-left-radius: 100px;
 }
 
-.formTitle div{
+.formTitle div {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
+}
+
+.btns button {
+    background-color: #023859;
+    color: white;
+    padding: 20px;
+    border-radius: 20px;
 }

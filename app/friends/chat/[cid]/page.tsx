@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { Chat, chats } from "../../data/chats";
+import ChatClient from "./ChatClient";
 import Link from "next/link";
 
 export default function ChatPage() {

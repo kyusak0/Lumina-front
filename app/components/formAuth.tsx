@@ -161,7 +161,7 @@ export default function FormAuth() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     );
 }

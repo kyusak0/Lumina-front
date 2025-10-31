@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { Chat, chats } from "../../data/chats";
+import Link from "next/link";
 
 export default function ChatPage() {
     const params = useParams();
@@ -35,7 +36,9 @@ export default function ChatPage() {
                                 : 'hover:bg-gray-100'
                         }`}
                     >
-                        {chatItem.name}
+                        <Link href={`/friends/chat/${chat.id}`}>
+                            {chatItem.name}
+                        </Link>
                     </div>
                 ))}
             </div>
@@ -57,4 +60,3 @@ export default function ChatPage() {
         </>
     )
 }
-

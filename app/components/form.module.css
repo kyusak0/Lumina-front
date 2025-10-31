@@ -70,6 +70,12 @@
     justify-content: space-between;
     padding: 40px;
     color: white;
+}
+
+.formBackLeft .formTitle {
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+}
 
     transition: 0.3s;
 }

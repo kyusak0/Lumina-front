@@ -10,20 +10,48 @@ export default function ChatPage() {
     const chatId = parseInt(cid as string, 10);
     const chat = chats.find((c: Chat) => c.id === chatId);
 
+    // Handle case where chat is not found
+    if (!chat) {
+        return (
+            <div className="p-4">
+                <h1>Chat not found</h1>
+                <p>No chat exists with ID: {cid}</p>
+            </div>
+        );
+    }
+
     return (
-        <><div className="flex g-4">
-            <div>
-                {chats.map((chat: Chat) => (
-                    <div key={chat.id} className="">
-                        {chat.name}
+        <>
+        <div className="flex gap-4 p-4">
+
+            <div className="w-1/4 border-r pr-4">
+                <h2 className="text-lg font-bold mb-4">Friends</h2>
+                {chats.map((chatItem: Chat) => (
+                    <div 
+                        key={chatItem.id} 
+                        className={`p-3 mb-2 rounded cursor-pointer ${
+                            chatItem.id === chatId 
+                                ? 'bg-blue-100 border border-blue-300' 
+                                : 'hover:bg-gray-100'
+                        }`}
+                    >
+                        {chatItem.name}
                     </div>
                 ))}
             </div>
-            <div>
-                <h1>Chat: {cid}</h1>
-                <p>Friend: {chat.name}</p>
-                <p>Last message: {chat.mess}</p>
-                <p>Time: {chat.time}</p>
+            
+            {/* Chat Area */}
+            <div className="flex-1">
+                <h1 className="text-2xl font-bold mb-4">Chat with {chat.name}</h1>
+                <div className="mb-4 p-4 bg-gray-50 rounded">
+                    <p className="text-gray-600">Last message: {chat.mess}</p>
+                    <p className="text-sm text-gray-500">Time: {chat.time}</p>
+                </div>
+                
+                {/* Add chat messages and input here later */}
+                <div className="mt-8">
+                    <p className="text-gray-500">Chat messages will appear here...</p>
+                </div>
             </div>
         </div>
         </>

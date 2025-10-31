@@ -4,6 +4,12 @@ import { useParams } from "next/navigation";
 import { Chat, chats } from "../../data/chats";
 import Link from "next/link";
 
+export async function generateStaticParams() {
+  return chats.map((chat) => ({
+    cid: chat.id.toString(),
+  }));
+}
+
 export default function ChatPage() {
     const params = useParams();
     const { cid } = params;
@@ -28,15 +34,16 @@ export default function ChatPage() {
                 <div className="w-1/4 border-r pr-4">
                     <h2 className="text-lg font-bold mb-4">Friends</h2>
                     {chats.map((chat: Chat) => (
-                    <div key={chat.id} className={`p-3 mb-2 rounded cursor-pointer ${chat.id === chatId
-                                    ? 'bg-blue-100 border border-blue-300'
-                                    : 'hover:bg-gray-100'
+                        <div key={chat.id}
+                            className={`p-3 mb-2 rounded cursor-pointer ${chat.id === chatId
+                                ? 'bg-blue-100 border border-blue-300'
+                                : 'hover:bg-gray-100'
                                 }`}>
-                        <Link href={`/friends/chat/${chat.id}`}>
-                            {chat.name}
-                        </Link>
-                    </div>
-                ))}
+                            <Link href={`/friends/chat/${chat.id}`}>
+                                {chat.name}
+                            </Link>
+                        </div>
+                    ))}
                 </div>
 
                 {/* Chat Area */}

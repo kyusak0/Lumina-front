@@ -1,67 +1,56 @@
 "use client";
-import Image from 'next/image'
-
-import logoImage from '../assets/images/logo.svg'
-import styles from './form.module.css';
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useAuth } from "../_context/AuthContext"; // путь подстрой под себя
+import logoImage from "../assets/images/logo.svg";
+import styles from "./form.module.css";
 
-import { useEffect, useState } from 'react';
-import api, { getCSRF } from '../api/_api'
-
-
-export default function formAuth() {
+export default function FormAuth() {
     const router = useRouter();
+    const { login, register } = useAuth();
+
     const [form, setForm] = useState({
         userName: "",
         email: "",
         login: "",
         password: "",
         rePassword: "",
-        policy:Boolean,
+        policy: false,
     });
+
     const handleChange = (e: any) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+        const { name, value, type, checked } = e.target;
+        setForm({ ...form, [name]: type === "checkbox" ? checked : value });
     };
+
     const handleRegister = async (e: any) => {
         e.preventDefault();
-        try {
-            await getCSRF();
-            await api.post("/register", form);
-            const res = await api.post("/login", {
-                login: form.email || form.userName,
-                password: form.password,
-              });
-              router.push("/profile");
-            
-        } catch (err: any) {
-            alert(err.response?.data?.message || "Ошибка входа");
+        if (form.password !== form.rePassword) {
+            alert("Пароли не совпадают");
+            return;
         }
-        
-        
-        
+
+        try {
+            await register(form);
+            router.push("/profile");
+        } catch (err: any) {
+            alert(err.response?.data?.message || "Ошибка регистрации");
+        }
     };
+
     const handleLogin = async (e: any) => {
         e.preventDefault();
         try {
-            await getCSRF();
-            const res = await api.post("/login", {
-                login: form.login,
-                password: form.password,
-            });
-            
-            localStorage.setItem("token", res.data.token);//плохой подход, небезопасно. Просто что б я видел что данные есть
-            localStorage.setItem("user", res.data.user);//плохой подход, небезопасно. тут лучше контекст делать, чтобы всегда можно было отслеживать аутентификацию
-            router.push("/profile");   
+            await login(form.login, form.password);
+            router.push("/profile");
         } catch (err: any) {
-            alert(err.response?.data?.message || "Ошибка входа");
+            alert(err.response?.data?.message);
         }
     };
 
     const [open, setOpen] = useState(false);
-    const handleClick = () => {
-        setOpen(!open);
-    }
-
+    const handleClick = () => setOpen(!open);
 
     return (
         <>
@@ -69,47 +58,75 @@ export default function formAuth() {
                 <div className="flex mx-auto gap-10">
                     <div className={styles.forms}>
                         <div className="form form-reg p-4">
-                            <h2 className='text-4xl mb-8 text-center'>Регистрация</h2>
+                            <h2 className="text-4xl mb-8 text-center">Регистрация</h2>
                             <form onSubmit={handleRegister}>
                                 <div className={styles.inputWrappers}>
                                     <div className={styles.inputWrapper}>
-                                        <input placeholder='' type="text" name="userName" id="userName" onChange={handleChange}/>
-                                        <label htmlFor="">Введите никнейм</label>
+                                        <input
+                                            type="text"
+                                            name="userName"
+                                            onChange={handleChange}
+                                        />
+                                        <label>Введите никнейм</label>
                                     </div>
                                     <div className={styles.inputWrapper}>
-                                        <input placeholder='' type="email" name="email" id="email" onChange={handleChange}/>
-                                        <label htmlFor="email">
-                                            Введите почту
-                                        </label>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            onChange={handleChange}
+                                        />
+                                        <label>Введите почту</label>
                                     </div>
                                     <div className={styles.inputWrapper}>
-                                        <input placeholder='' type="text" name="password" id="password" onChange={handleChange}/>
-                                        <label htmlFor="">Введите пароль</label>
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            onChange={handleChange}
+                                        />
+                                        <label>Введите пароль</label>
                                     </div>
                                     <div className={styles.inputWrapper}>
-                                        <input placeholder='' type="text" name="rePassword" id="rePassword" onChange={handleChange}/>
-                                        <label htmlFor="rePassword">Подтверждение пароля</label>
+                                        <input
+                                            type="password"
+                                            name="rePassword"
+                                            onChange={handleChange}
+                                        />
+                                        <label>Подтверждение пароля</label>
                                     </div>
                                     <div className="ml-5 flex gap-2">
-                                        <input type="checkbox" name="policy" id="policy" onChange={handleChange}/>
+                                        <input
+                                            type="checkbox"
+                                            name="policy"
+                                            onChange={handleChange}
+                                        />
                                         <label htmlFor="policy">policy</label>
                                     </div>
                                     <div className={styles.btns}>
-                                        <button type="submit">Регистрация</button></div>
+                                        <button type="submit">Регистрация</button>
+                                    </div>
                                 </div>
                             </form>
                         </div>
+
                         <div className="form form-reg p-4">
-                            <h2 className='text-4xl mb-8 text-center'>Войти</h2>
+                            <h2 className="text-4xl mb-8 text-center">Войти</h2>
                             <form onSubmit={handleLogin}>
                                 <div className={styles.inputWrappers}>
                                     <div className={styles.inputWrapper}>
-                                        <input placeholder='' type="text" name="login" id="login" onChange={handleChange}/>
-                                        <label htmlFor="">Введите почту или никнейм</label>
+                                        <input
+                                            type="text"
+                                            name="login"
+                                            onChange={handleChange}
+                                        />
+                                        <label>Введите почту или никнейм</label>
                                     </div>
                                     <div className={styles.inputWrapper}>
-                                        <input placeholder='' type="text" name="password" id="password" onChange={handleChange}/>
-                                        <label htmlFor="">Введите пароль</label>
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            onChange={handleChange}
+                                        />
+                                        <label>Введите пароль</label>
                                     </div>
                                     <div className={styles.btns}>
                                         <button type="submit">Войти</button>
@@ -118,31 +135,34 @@ export default function formAuth() {
                             </form>
                         </div>
                     </div>
-                    <div className={open ? styles.formBackRight : styles.formBackLeft}>
-                        <div className={styles.formTitle} >
+
+                    <div
+                        className={open ? styles.formBackRight : styles.formBackLeft}
+                    >
+                        <div className={styles.formTitle}>
                             <div className={styles.formTitleTop}>
                                 <Image
                                     src={logoImage}
                                     alt="Lumina's logo"
-                                    width='200'
-                                    height='60' />
-
-                                <h2 className='text-3xl mb-8 text-center'>Добро пожаловать</h2>
+                                    width={200}
+                                    height={60}
+                                />
+                                <h2 className="text-3xl mb-8 text-center">
+                                    Добро пожаловать
+                                </h2>
                             </div>
                             <div className={styles.formTitleBottom}>
-                                <button
-                                    className={styles.btn}
-                                    onClick={handleClick}
-                                >
+                                <button className={styles.btn} onClick={handleClick}>
                                     Уже есть аккаунт?
-                                    <br></br>
+                                    <br />
                                     Войти
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div >
+            </div>
         </>
     );
 }
+

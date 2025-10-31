@@ -1,6 +1,6 @@
 'use client'
 
-import { Chat } from "../../data/chats";
+import { Chat } from "./chats";
 
 interface ChatClientProps {
   chat: Chat;

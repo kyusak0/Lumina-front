@@ -4,6 +4,12 @@ import { useParams } from "next/navigation";
 import { Chat, chats } from "../../data/chats";
 import Link from "next/link";
 
+export async function generateStaticParams() {
+  return chats.map((chat) => ({
+    cid: chat.id.toString(),
+  }));
+}
+
 export default function ChatPage() {
     const params = useParams();
     const { cid } = params;
@@ -23,40 +29,38 @@ export default function ChatPage() {
 
     return (
         <>
-        <div className="flex gap-4 p-4">
+            <div className="flex gap-4 p-4">
 
-            <div className="w-1/4 border-r pr-4">
-                <h2 className="text-lg font-bold mb-4">Friends</h2>
-                {chats.map((chatItem: Chat) => (
-                    <div 
-                        key={chatItem.id} 
-                        className={`p-3 mb-2 rounded cursor-pointer ${
-                            chatItem.id === chatId 
-                                ? 'bg-blue-100 border border-blue-300' 
+                <div className="w-1/4 border-r pr-4">
+                    <h2 className="text-lg font-bold mb-4">Friends</h2>
+                    {chats.map((chat: Chat) => (
+                        <div key={chat.id}
+                            className={`p-3 mb-2 rounded cursor-pointer ${chat.id === chatId
+                                ? 'bg-blue-100 border border-blue-300'
                                 : 'hover:bg-gray-100'
-                        }`}
-                    >
-                        <Link href={`/friends/chat/${chat.id}`}>
-                            {chatItem.name}
-                        </Link>
+                                }`}>
+                            <Link href={`/friends/chat/${chat.id}`}>
+                                {chat.name}
+                            </Link>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Chat Area */}
+                <div className="flex-1">
+                    <h1 className="text-2xl font-bold mb-4">Chat with {chat.name}</h1>
+                    <div className="mb-4 p-4 bg-gray-50 rounded">
+                        <p className="text-gray-600">Last message: {chat.mess}</p>
+                        <p className="text-sm text-gray-500">Time: {chat.time}</p>
                     </div>
-                ))}
-            </div>
-            
-            {/* Chat Area */}
-            <div className="flex-1">
-                <h1 className="text-2xl font-bold mb-4">Chat with {chat.name}</h1>
-                <div className="mb-4 p-4 bg-gray-50 rounded">
-                    <p className="text-gray-600">Last message: {chat.mess}</p>
-                    <p className="text-sm text-gray-500">Time: {chat.time}</p>
-                </div>
-                
-                {/* Add chat messages and input here later */}
-                <div className="mt-8">
-                    <p className="text-gray-500">Chat messages will appear here...</p>
+
+                    {/* Add chat messages and input here later */}
+                    <div className="mt-8">
+                        <p className="text-gray-500">Chat messages will appear here...</p>
+                    </div>
                 </div>
             </div>
-        </div>
         </>
     )
 }
+

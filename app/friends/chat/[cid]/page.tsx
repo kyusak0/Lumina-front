@@ -4,12 +4,6 @@ import { useParams } from "next/navigation";
 import { Chat, chats } from "../../data/chats";
 import Link from "next/link";
 
-export async function generateStaticParams() {
-  return chats.map((chat) => ({
-    cid: chat.id.toString(),
-  }));
-}
-
 export default function ChatPage() {
     const params = useParams();
     const { cid } = params;
@@ -63,4 +57,3 @@ export default function ChatPage() {
         </>
     )
 }
-

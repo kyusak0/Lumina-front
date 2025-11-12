@@ -1,16 +1,16 @@
 "use client"
 import Image from 'next/image'
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import api from '../api/api'
 
 import logoImage from '../assets/images/logo.svg'
 import styles from '../components/form.module.css'
 
-export default function testFormAuth() {
-interface IProduct{
-    id: string;
-    name: string;
-}
+export default function testForm() {
+    interface IProduct {
+        id: string;
+        name: string;
+    }
 
     const [userName, setUserName] = useState('');
     const [email, setEmail] = useState('');
@@ -18,7 +18,7 @@ interface IProduct{
     const [rePass, setRePass] = useState('');
     const [policy, setPolicy] = useState('');
     const [products, setProducts] = useState<IProduct[]>([]);
-    
+
 
     useEffect(() => {
         api.get("/catalog")
@@ -98,7 +98,7 @@ interface IProduct{
                 ) : (
                     <ul>
                         {products.map(product => (
-                            
+
                             <li key={product.id}>{product.name}</li>
                         ))}
                     </ul>

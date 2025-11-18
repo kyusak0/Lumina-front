@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "ES2020",
+    "outDir": "./dist",
     "lib": [
       "dom",
       "dom.iterable",
@@ -33,11 +34,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "**/*.mts",
-    ".next\\dev/types/**/*.ts",
-    ".next\\dev/types/**/*.ts"
-, "app/layouts/mainLayout.tsx"  ],
+    ".next/dev/types/**/*.ts"
+  ],
   "exclude": [
     "node_modules"
   ]

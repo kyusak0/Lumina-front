@@ -4,7 +4,7 @@ import MainLayout from "../layouts/mainLayout"
 
 import { chats, Chat } from "./data/chats";
 import { messTime } from "../utils/setTime";
-import ChatClient from "./data/ChatClient";
+import ChatClient from "../components/ChatClient";
 import { useState } from "react";
 
 export default function Friends() {

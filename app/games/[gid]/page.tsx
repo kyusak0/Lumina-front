@@ -11,4 +11,8 @@ const Game = () => {
     )
 }
 
+export function generateStaticParams() {
+  return [ { slug: ["/"] } ]
+}
+
 export default Game;

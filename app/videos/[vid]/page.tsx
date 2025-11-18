@@ -12,7 +12,11 @@ const Video = () => {
 }
 
 export function generateStaticParams() {
-  return [ { slug: ["/"] } ]
+    return [
+        { vid: 0 },
+        { vid: 1 },
+        { vid: 3 }
+    ];
 }
 
 export default Video;

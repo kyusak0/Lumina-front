@@ -33,7 +33,7 @@ export default function ChatClient({ chat }: ChatClientProps) {
   const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-    // Подключаемся к WebSocket серверу
+
     wsRef.current = new WebSocket('ws://localhost:5000');
 
     wsRef.current.onopen = () => {

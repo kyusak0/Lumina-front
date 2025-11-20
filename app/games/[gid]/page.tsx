@@ -11,12 +11,4 @@ const Game = () => {
     )
 }
 
-export function generateStaticParams() {
-    return [
-        { gid: 0 },
-        { gid: 1 },
-        { gid: 3 }
-    ];
-}
-
 export default Game;

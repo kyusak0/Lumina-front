@@ -11,12 +11,5 @@ const Video = () => {
     )
 }
 
-export function generateStaticParams() {
-    return [
-        { vid: 0 },
-        { vid: 1 },
-        { vid: 3 }
-    ];
-}
 
 export default Video;

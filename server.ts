@@ -6,7 +6,6 @@ wss.on('connection', function (ws:any) {
     console.log('New client connected');
     
     ws.on('message', function (message:any) {
-        // message уже является Buffer/string, не нужно преобразовывать
         console.log('Received:', message.toString());
         broadcastMessage(message, ws);
     });
@@ -22,7 +21,6 @@ wss.on('connection', function (ws:any) {
 
 function broadcastMessage(message:any, currentClient:any) {
     wss.clients.forEach(function each(client:any) {
-        // Проверяем, что клиент подключен и не является отправителем
         if (client !== currentClient && client.readyState === WebSocket.OPEN) {
             client.send(message.toString());
         }

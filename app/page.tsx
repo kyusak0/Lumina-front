@@ -1,18 +1,11 @@
 import MainLayout from "./layouts/mainLayout";
-import FormAuth from "./components/formAuth";
 
-import Link from "next/link";
-export default function Home() {
-  return (
-    
-      <MainLayout>
-        <h1>
-          Hello world!
-        </h1>
-        <FormAuth />
-        <Link href="/profile">
-            123
-        </Link>
-      </MainLayout>
-  );
+export default function MainPage() {
+    return (
+        <MainLayout>
+            <h1 className="text-4xl pt-10 text-center">
+                Welcome to lumina
+            </h1>
+        </MainLayout>
+    );
 }

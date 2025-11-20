@@ -17,8 +17,15 @@ export default function Header() {
                     href="/friends">Chats
                 </Link>
                 <Link
+                    href="/videos">Videos
+                </Link>
+                <Link
+                    href="/games">Games
+                </Link>
+                <Link
                     href="/auth">Log In
                 </Link>
+                
             </nav>
         </header>
     )

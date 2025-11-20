@@ -9,7 +9,7 @@ export interface Messages {
     mess: string
     timestamp: string
     sender_id: number
-    getter_id: number
+    char_id: number
 }
 
 export const chats: Chat[] = [
@@ -21,13 +21,13 @@ export const chats: Chat[] = [
             mess: "lumina friend1lumina friend1lumina friend1lumina friend1",
             timestamp: '12.12',
             sender_id: 1,
-            getter_id: 1,
+            char_id: 1,
         }, {
             id: 1,
             mess: "lumina friend1lumina friend1lumina friend1",
             timestamp: '12.12',
             sender_id: 1,
-            getter_id: 1,
+            char_id: 1,
         }],
     }, {
         id: 2,
@@ -37,13 +37,13 @@ export const chats: Chat[] = [
             mess: "lumina friend2lumina friend2",
             timestamp: '12.12',
             sender_id: 1,
-            getter_id: 1,
+            char_id: 1,
         }, {
             id: 1,
             mess: "lorem ipsum",
             timestamp: '12.12',
             sender_id: 1,
-            getter_id: 1,
+            char_id: 1,
         }],
     }, {
         id: 3,
@@ -53,13 +53,13 @@ export const chats: Chat[] = [
             mess: "lumina friend3lumina friend3",
             timestamp: '12.12',
             sender_id: 1,
-            getter_id: 1,
+            char_id: 1,
         }, {
             id: 1,
             mess: "lorem ipsum",
             timestamp: '12.12',
             sender_id: 1,
-            getter_id: 1,
+            char_id: 1,
         }],
     }, {
         id: 4,
@@ -69,13 +69,13 @@ export const chats: Chat[] = [
             mess: "lumina friend4lumina friend4",
             timestamp: '12.12',
             sender_id: 1,
-            getter_id: 1,
+            char_id: 1,
         }, {
             id: 1,
             mess: "lumina friend4lumina friend4",
             timestamp: '12.12',
             sender_id: 1,
-            getter_id: 1,
+            char_id: 1,
         }],
     }
 ]

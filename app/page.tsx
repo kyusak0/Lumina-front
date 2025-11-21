@@ -3,7 +3,6 @@
 import MainLayout from "./layouts/mainLayout";
 import Api, {getCSRF} from "./_api/api";
 
-getCSRF();
 export default function MainPage() {
     
     return (

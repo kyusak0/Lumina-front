@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev:server": "node server.js",
+    "dev:server": "node server.ts",
     "dev:client": "next client dev",
     "dev": "next dev",
     "build": "next build",

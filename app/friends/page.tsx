@@ -12,12 +12,23 @@ export default function Friends() {
     const [chatId, setChatId] = useState(0);
 
     const chatSelect = (id: number) => {
+        if(!id){
+            return;
+        }
         setChatId(id - 1);
+    }
+
+    const deleteChat = (id:number)=>{
+        if(!id){
+            return;
+        }
+        chats.splice(id-1, 1);
+        chatSelect(id);
     }
 
     const newChatName = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        
+
         const newNameField = document.querySelector('#chatName') as HTMLInputElement;
         const newName = newNameField?.value;
 
@@ -42,22 +53,31 @@ export default function Friends() {
                     <div className="w-1/4 border-r pr-4">
                         <h2 className="text-lg font-bold mb-4">Friends</h2>
                         {chats.map((chatItem: Chat) => (
-                            <div key={chatItem.id}>
+                            <div key={chatItem.id}
+                            onClick={() => chatSelect(chatItem.id)}
+                                className={`block p-3 mb-2 rounded flex justify-between ${chatItem.id - 1 === chatId
+                                    ? 'bg-blue-100 border border-blue-300'
+                                    : 'hover:bg-gray-100'
+                                    }`}
+                            >
 
 
                                 <button
-                                    onClick={() => chatSelect(chatItem.id)}
-                                    className={`block p-3 mb-2 rounded cursor-pointer ${chatItem.id - 1 === chatId
-                                        ? 'bg-blue-100 border border-blue-300'
-                                        : 'hover:bg-gray-100'
-                                        }`}
+                                    
+
                                 >
                                     {chatItem.name}
+
+
+
                                 </button>
+                                <button
+                                    onClick={() => deleteChat(chatItem.id)}
+                                >delete</button>
                             </div>
                         ))}
                         <form action="" onSubmit={(event) => newChatName(event)}>
-                            <input type="text" name="chatName" id="chatName" placeholder="name of chat"/>
+                            <input type="text" name="chatName" id="chatName" placeholder="name of chat" />
                             <button type="submit">
                                 new chat
                             </button></form>

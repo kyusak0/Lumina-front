@@ -1,25 +1,22 @@
+"use client"
+
+import { getCookie, setCookie, deleteCookie } from 'cookies-next/client';
+
 import axios from "axios";
 
-
-interface Data {
-    userName: string,
-    email: string,
-    login?: string,
-    password: string,
-    rePassword: String,
-    policy:Boolean,
-}
-
-const api = axios.create({
+const Api = axios.create({
     baseURL: "http://127.0.0.1:8001/api",
     withCredentials:true,
+    headers:{
+      'Authorization': `Bearer ${getCookie("TOKEN")}`
+    }
 });
 
+export async function  setToken (tokenParam:any) {
+setCookie("TOKEN", tokenParam)
+}
 export async function getCSRF() {
-    await axios.get("http://127.0.0.1:8001/sanctum/csrf-cookie", {
-      withCredentials: true,
-    });
+    await Api.get("/csrf-cookie")
   }
-
-
-export default api;
+  
+export default Api;

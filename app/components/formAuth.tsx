@@ -1,16 +1,17 @@
 "use client";
 import Image from 'next/image'
-
 import logoImage from '../assets/images/logo.svg'
 import styles from './form.module.css';
 import { useRouter } from "next/navigation";
+import { useCookies } from 'next-client-cookies';
 
 import { useEffect, useState } from 'react';
-import api, { getCSRF} from '../_api/_api'
+import Api, { getCSRF, setToken} from '../_api/api'
 
 
 export default function formAuth() {
     const router = useRouter();
+    
     const [form, setForm] = useState({
         userName: "",
         email: "",
@@ -25,31 +26,29 @@ export default function formAuth() {
     const handleRegister = async (e: any) => {
         e.preventDefault();
         try {
-            await getCSRF();
-            await api.post("/register", form);
-            const res = await api.post("/login", {
+            await Api.post("/register", form);
+            const res = await Api.post("/login", {
                 login: form.email || form.userName,
                 password: form.password,
               });
+              setToken(res.data.TOKEN)
               router.push("/profile");
             
         } catch (err: any) {
             alert(err.response?.data?.message || "Ошибка входа");
         }
-        
-        
-        
+      
     };
     const handleLogin = async (e: any) => {
         e.preventDefault();
         try {
-            await getCSRF();
-            const res = await api.post("/login", {
+            const res = await Api.post("/login", {
                 login: form.login,
                 password: form.password,
             });
-            
-            router.push("/profile");   
+            setToken(res.data.TOKEN)
+            router.push("/profile");
+
         } catch (err: any) {
             alert(err.response?.data?.message || "Ошибка входа");
         }
@@ -63,6 +62,7 @@ export default function formAuth() {
 
     return (
         <>
+        
             <div className="flex">
                 <div className="flex mx-auto gap-10">
                     <div className={styles.forms}>

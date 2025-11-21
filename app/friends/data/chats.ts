@@ -2,15 +2,27 @@ export interface Chat {
     id: number
     name: string
     messages: Messages[]
+    //creator_id: number
 }
+
+/*
+export interface Member{
+chat_id:number
+user_id: number
+role: string
+}
+*/
 
 export interface Messages {
     id: number
     mess: string
     timestamp: string
-    sender_id: number
-    char_id: number
+    sender_id: number | null
+    char_id: number | null
 }
+
+// status: Boolean
+// create another table
 
 export const chats: Chat[] = [
     {

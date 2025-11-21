@@ -6,11 +6,14 @@ import Link from 'next/link';
 export default function Header() {
     return (
         <header className="flex items-center justify-between w-full h-20 p 20">
-            <Image
-                src={logoImage}
-                alt="Lumina's logo"
-                width='200'
-                height='60' />
+            <Link href="/">
+                <Image
+                    src={logoImage}
+                    alt="Lumina's logo"
+                    width='200'
+                    height='60' 
+                    title='На главную'/>
+            </Link>
 
             <nav className="flex text-white gap-10">
                 <Link

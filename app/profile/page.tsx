@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import { Suspense, useState, useEffect} from 'react'
 import Link from "next/link";
@@ -28,14 +28,20 @@ export default function profile() {
     
     useEffect(() => {
         async function fetchData() {
+            console.log((await Api.get("/user")).status)
           try {
+            console.log((await Api.get("/user")).status)
             const res = await Api.get("/user")
+            console.log(res)
+            confirm("gg")
             user.id= res.data.id;
             user.email= res.data.email;
             user.userName= res.data.userName;
 
           } catch (error: any) {
             if(error.status == 401){
+                console.log(error.status)
+                confirm("gg")
                 alert("не авторизован")
                 router.push("/auth")
             }

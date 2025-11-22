@@ -23,7 +23,7 @@ export default function Header() {
                     href="/videos">Videos
                 </Link>
                 <Link
-                    href="/games">Games
+                    href="/profile">Profile
                 </Link>
                 <Link
                     href="/auth">Log In

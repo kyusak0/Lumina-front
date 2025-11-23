@@ -29,7 +29,9 @@ export default function profile() {
     useEffect(() => {
         async function fetchData() {
           try {
+            
             const res = await Api.get("/user")
+            alert(res.data.email)
             user.id= res.data.id;
             user.email= res.data.email;
             user.userName= res.data.userName;

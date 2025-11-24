@@ -35,6 +35,7 @@ export default function profile() {
             user.id= res.data.id;
             user.email= res.data.email;
             user.userName= res.data.userName;
+            console.log(res.data.id)
 
           } catch (error: any) {
             if(error.status == 401){

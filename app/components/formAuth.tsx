@@ -10,6 +10,7 @@ import Api, { getCSRF, setToken} from '../_api/api'
 
 
 export default function formAuth() {
+    
     const router = useRouter();
     
     const [form, setForm] = useState({
@@ -25,13 +26,13 @@ export default function formAuth() {
     };
     const handleRegister = async (e: any) => {
         e.preventDefault();
+        getCSRF();
         try {
             await Api.post("/register", form);
             const res = await Api.post("/login", {
                 login: form.email || form.userName,
                 password: form.password,
               });
-              setToken(res.data.TOKEN)
               router.push("/profile");
             
         } catch (err: any) {
@@ -42,12 +43,13 @@ export default function formAuth() {
     const handleLogin = async (e: any) => {
         e.preventDefault();
         try {
+            getCSRF();
             const res = await Api.post("/login", {
                 login: form.login,
                 password: form.password,
             });
-            setToken(res.data.TOKEN)
-            router.push("/profile");
+            
+            console.log(res)
 
         } catch (err: any) {
             alert(err.response?.data?.message || "Ошибка входа");
@@ -78,6 +80,12 @@ export default function formAuth() {
                                         <input placeholder='' type="email" name="email" id="email" onChange={handleChange}/>
                                         <label htmlFor="email">
                                             Введите почту
+                                        </label>
+                                    </div>
+                                    <div className={styles.inputWrapper}>
+                                        <input placeholder='' type="login" name="login" id="login" onChange={handleChange}/>
+                                        <label htmlFor="login">
+                                            Введите login
                                         </label>
                                     </div>
                                     <div className={styles.inputWrapper}>

@@ -5,7 +5,7 @@ import { getCookie, setCookie, deleteCookie } from 'cookies-next/client';
 import axios from "axios";
 
 const Api = axios.create({
-    baseURL: "http://127.0.0.1:8001/api",
+    baseURL: "http://api.localhost.test/api",
     withCredentials:true,
     headers:{
       'Authorization': `Bearer ${getCookie("TOKEN")}`

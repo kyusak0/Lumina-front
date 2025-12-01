@@ -47,9 +47,10 @@ export default function formAuth() {
             const res = await Api.post("/login", {
                 login: form.login,
                 password: form.password,
+
             });
-            
-            console.log(res)
+            const user = await Api.get("/user");
+            console.log(user)
 
         } catch (err: any) {
             alert(err.response?.data?.message || "Ошибка входа");

@@ -12,6 +12,7 @@ export interface Chat {
     name: string,
     creator_id: number
 }
+
 export default function Friends() {
 
     const [senderId, setSenderId] = useState(0);
@@ -78,10 +79,6 @@ export default function Friends() {
                 }
             };
 
-
-
-
-
         } catch (err: any) {
             alert(err.response?.data?.message || "Error sending message");
         }
@@ -90,9 +87,7 @@ export default function Friends() {
     const [chats, setChats] = useState<Chat[]>([]);
 
     const showChats = async () => {
-        const res = await api.post("/allChat", {
-
-        });
+        const res = await api.post("/allChat");
 
         console.log("Message sent successfully:", res.data.mess);
 
@@ -101,14 +96,14 @@ export default function Friends() {
 
 
     useEffect(() => {
-            if (senderId > -1) {
-                const interval = setInterval(() => {
-                    showChats();
-                }, 5000); // Обновлять каждые 5 секунд, если вебсокет не работает корректно
-    
-                return () => clearInterval(interval);
-            }
-        }, [senderId]);
+        if (senderId > -1) {
+            const interval = setInterval(() => {
+                showChats();
+            }, 5000); // Обновлять каждые 5 секунд, если вебсокет не работает корректно
+
+            return () => clearInterval(interval);
+        }
+    }, [senderId]);
 
 
     return (
@@ -127,16 +122,9 @@ export default function Friends() {
                                     : 'hover:bg-gray-100'
                                     }`}
                             >
-
-
                                 <button
-
-
                                 >
                                     {chat.name}
-
-
-
                                 </button>
                                 <button
                                 // onClick={() => deleteChat(chatItem.id)}

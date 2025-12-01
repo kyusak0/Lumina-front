@@ -3,6 +3,7 @@
 import MainLayout from '@/app/layouts/mainLayout';
 import api, { getCSRF } from '../../_api/api'
 import { useState, useEffect, useRef } from 'react';
+import { MouseEvent } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
@@ -17,9 +18,6 @@ export interface Message {
 export default function Chat() {
     const params = useParams();
     const cid = params.cid;
-
-
-    console.log(cid)
 
     const [senderId, setSenderId] = useState(0);
     const [chatId, setChatId] = useState(cid);
@@ -51,7 +49,7 @@ export default function Chat() {
             });
 
             setMessages(res.data.messages || []);
-            console.log("Messages loaded:", res.data.messages);
+            // console.log("Messages loaded:", res.data.messages);
         } catch (err: any) {
             console.error("Error loading messages:", err);
         }
@@ -183,11 +181,36 @@ export default function Chat() {
         }
     }, [senderId]);
 
-    const messClick = (event: MouseEvent, messId: number) => {
+    const [context, setContext] = useState<{
+        mess_id: number,
+        visible: boolean,
+        x_position: number,
+        y_position: number,
+    }>({
+        mess_id: 0,
+        visible: false,
+        x_position: 0,
+        y_position: 0,
+    });
+
+    const messClick = (event: MouseEvent<HTMLDivElement>, messId: number) => {
+
+        event.preventDefault();
         console.log(event.type + "" + "" + messId);
-        if (event.type === 'click') {
-            // здесь будет взаимодействие с сообщением
+
+        if (messId > 0) {
+            setContext({
+                mess_id: messId,
+                visible: true,
+                x_position: event.clientX,
+                y_position: event.clientY,
+            });
+
+            console.log(event.clientX)
         }
+
+
+
     }
 
     return (
@@ -207,7 +230,7 @@ export default function Chat() {
                     <p className="text-gray-500 text-center p-4">No messages yet</p>
                 ) : (
                     messages.map((message: Message) => (
-                        <div onClick={(event) => { messClick(event, message.id) }}
+                        <div onContextMenu={(e) => { messClick(e, message.id) }}
                             className={`p-3 mb-2 rounded ${message.sender_id === senderId
                                 ? 'bg-blue-100 border-l-4 border-blue-500 ml-8'
                                 : 'bg-gray-100 border-l-4 border-gray-500 mr-8'
@@ -230,7 +253,27 @@ export default function Chat() {
                         </div>
                     ))
                 )}
+
+
                 <div ref={messagesEndRef} />
+
+                <div className={`${context.visible ? '' : 'hidden'} 
+            w-full h-100 bg-blue-200 absolute top-40 bg-transparent pointer-events-none`}
+            >
+                <div
+                    className={`${context.visible ? '' : 'hidden'}
+                absolute bg-blue-100 flex flex-col items-center gap-4
+                `}
+                    style={{
+                        left: `${context.x_position}px`,
+                        top: `${context.y_position - 200}px`,
+                    }}>
+                    <h3>Context menu</h3>
+                    <button>edit</button>
+                    <button>delete</button>
+                    <button>forward</button>
+                </div>
+            </div>
             </div>
 
             <div className="flex gap-2 mb-4">
@@ -265,6 +308,8 @@ export default function Chat() {
                     Send
                 </button>
             </form>
+            
+
 
             {/* <div className="mt-4 p-3 bg-gray-100 rounded text-xs">
                 <p>Debug Info:</p>

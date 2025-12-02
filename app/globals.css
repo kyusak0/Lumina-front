@@ -13,7 +13,7 @@
   }
 }
 
-*{
+* {
   scroll-behavior: smooth;
   box-sizing: border-box;
 }
@@ -34,11 +34,11 @@ header {
   z-index: 2;
 }
 
-header + main {
+header+main {
   margin-top: 100px;
 }
 
-button{
+button {
   cursor: pointer;
 }
 
@@ -48,4 +48,26 @@ button{
   color: var(--background);
   background-color: var(--secondary);
   border-radius: 20px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.adaptive-block {
+  display: none;
+}
+
+.web-block {
+  display: block;
+}
+
+@media screen and (max-width: 600px) {
+  .adaptive-block {
+    display: block;
+  }
+
+  .web-block {
+    display: none;
+  }
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import MainLayout from '@/app/layouts/mainLayout';
-import api, { getCSRF } from '../_api/api'
+import api, { getCSRF } from '../../_api/api'
 import { useState, useEffect, useRef } from 'react';
 import { MouseEvent } from 'react';
 import { useParams } from 'next/navigation';
@@ -26,6 +26,9 @@ export default function Chat({ chat_id }: ChatProps) {
     if (chat_id && chat_id !== cid) {
         cid = chat_id;
     }
+
+
+
     const [senderId, setSenderId] = useState(0);
     const [chatId, setChatId] = useState(cid);
     const [messages, setMessages] = useState<Message[]>([]);
@@ -33,6 +36,8 @@ export default function Chat({ chat_id }: ChatProps) {
     const [isConnected, setIsConnected] = useState(false);
     const wsRef = useRef<WebSocket | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    
 
     const checkUser = async () => {
         try {
@@ -232,19 +237,34 @@ export default function Chat({ chat_id }: ChatProps) {
 
     }
 
+    if (chatId == '0' || !chatId) {
+        return
+    }
+
+
+
+
     return (
-        <MainLayout>
+        <div className="">
             <div className={`p-2 flex justify-evenly mb-4 text-white ${isConnected ? 'bg-green-600' : 'bg-red-600'}`}>
-                <Link href='friends'>
-                    Back
-                </Link>
+                <div className="web-block">
+                    <button onClick={() => { setChatId('0') }}>
+                        Back
+                    </button>
+                </div>
+                <div className="adaptive-block">
+                    <Link href="/friends">
+                        Back
+                    </Link>
+                </div>
+
                 <p>WebSocket: {isConnected ? 'Connected' : 'Disconnected'}</p>
                 <p>User ID: {senderId}</p>
                 <p>Chat ID: {chatId}</p>
                 <p>Messages' count: {messages.length}</p>
             </div>
 
-            <div className="messages mb-4 max-h-100 overflow-y-auto border rounded-lg p-2">
+            <div className="messages w-full mb-4 max-h-100 overflow-y-auto border rounded-lg p-2">
                 {messages.length === 0 ? (
                     <p className="text-gray-500 text-center p-4">No messages yet</p>
                 ) : (
@@ -277,15 +297,15 @@ export default function Chat({ chat_id }: ChatProps) {
                 <div ref={messagesEndRef} />
 
                 <div className={`${context.visible ? '' : 'hidden'} 
-            w-full h-100 bg-blue-200 absolute top-40 bg-transparent pointer-events-none`}
+            w-100 bg-transparent absolute top-40 bg-blue-100 `}
                 >
                     <div
                         className={`${context.visible ? '' : 'hidden'}
-                absolute bg-blue-100 flex flex-col items-center gap-4
+                absolute bg-blue-200 flex flex-col items-center gap-4 p-5 w-50
                 `}
                         style={{
-                            left: `${context.x_position}px`,
-                            top: `${context.y_position - 200}px`,
+                            left: `${context.x_position - 800}px`,
+                            top: `${context.y_position - 150}px`,
                         }}>
                         <h3>Context menu</h3>
                         <button>edit</button>
@@ -335,6 +355,6 @@ export default function Chat({ chat_id }: ChatProps) {
                 <p>• WebSocket State: {wsRef.current?.readyState} (0-Connecting, 1-Open, 2-Closing, 3-Closed)</p>
                 <p>• Last update: {new Date().toLocaleTimeString()}</p>
             </div> */}
-        </MainLayout>
+        </div>
     );
 }

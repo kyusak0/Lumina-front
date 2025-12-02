@@ -29,10 +29,13 @@ export default function profile() {
     useEffect(() => {
         async function fetchData() {
           try {
+            
             const res = await Api.get("/user")
+            alert(res.data.email)
             user.id= res.data.id;
             user.email= res.data.email;
             user.userName= res.data.userName;
+            console.log(res.data.id)
 
           } catch (error: any) {
             if(error.status == 401){

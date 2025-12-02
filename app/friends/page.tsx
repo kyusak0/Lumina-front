@@ -4,7 +4,10 @@ import MainLayout from "../layouts/mainLayout"
 
 import api, { getCSRF } from "../_api/api";
 import { useState, useEffect } from "react";
+
 import Link from "next/link";
+
+import ChatWindow from './[cid]/page'
 
 
 export interface Chat {
@@ -109,43 +112,77 @@ export default function Friends() {
     return (
         <>
             <MainLayout>
-                <div className="flex gap-4 p-4">
-                    <div className="w-full border-r pr-4">
-                        <h2 className="text-lg font-bold my-4">Friends</h2>
-                        {chats.map((chat: Chat) => (
-                            <Link
-                                href={`friends/${chat.id}`}
-                                key={chat.id}
-                                onClick={() => chatSelect(chat.id)}
-                                className={`block px-3 py-5 mb-2 rounded flex justify-between ${chat.id - 1 === chatId
-                                    ? 'bg-blue-100 border border-blue-300'
-                                    : 'hover:bg-gray-100'
-                                    }`}
-                            >
-                                <button
-                                >
-                                    {chat.name}
-                                </button>
-                                <button
-                                // onClick={() => deleteChat(chatItem.id)}
-                                >delete</button>
-                            </Link>
-                        ))}
+                <div className="flex">
+                    <div className="flex gap-4 p-4 w-2/4">
+                        <div className="w-full border-r pr-4">
+                            <h2 className="text-lg font-bold my-4">Friends</h2>
+                            {chats.map((chat: Chat) => (
+                                <div key={chat.id}>
+                                    <div className="web-block">
+                                        <button
+                                            // Link
+                                            // href={`friends/${chat.id}`}
+                                            
+                                            onClick={() => chatSelect(chat.id)}
+                                            className={`block px-3 py-5 rounded flex justify-between w-full ${chat.id - 1 === chatId
+                                                ? 'bg-blue-100 border border-blue-300'
+                                                : 'hover:bg-gray-100'
+                                                }`}
+                                        >
+                                            <div
+                                            >
+                                                {chat.name}
+                                            </div>
+                                            {/* <div
+                                    // onClick={() => deleteChat(chatItem.id)}
+                                    >delete</div> */}
+                                        </button>
+                                    </div>
+                                    <div className="adaptive-block">
+                                        <Link href={`friends/${chat.id}`}
+                                            
+                                            onClick={() => chatSelect(chat.id)}
+                                            className={`block px-3 py-5 rounded flex justify-between w-full ${chat.id - 1 === chatId
+                                                ? 'bg-blue-100 border border-blue-300'
+                                                : 'hover:bg-gray-100'
+                                                }`}
+                                        >
+                                            <div
+                                            >
+                                                {chat.name}
+                                            </div>
+                                            <div
+                                            // onClick={() => deleteChat(chatItem.id)}
+                                            >delete</div>
+                                        </Link>
+                                    </div>
+                                </div>
+                            ))}
 
-                        <form onSubmit={(event) => newChatName(event)}>
-                            <input type="text" name="name" id="name" placeholder="name of chat" onChange={(e) => setChatName(e.target.value)} value={chatName} />
-                            <input type="hidden" name="creator_id" value={senderId} />
-                            <button type="submit">
-                                new chat
-                            </button></form>
+                            <form onSubmit={(event) => newChatName(event)}>
+                                <input type="text" name="name" id="name" placeholder="name of chat" onChange={(e) => setChatName(e.target.value)} value={chatName} />
+                                <input type="hidden" name="creator_id" value={senderId} />
+                                <button type="submit">
+                                    new chat
+                                </button></form>
+                            <button
+                                onClick={showChats}
+                            >
+                                refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div className="w-2/4">
+                        <ChatWindow
+                            key={chatId}
+                            chat_id={chatId + 1}
+                        />
+                        <div className="absolute w-2/4 flex items-center z-index-1 justify-center h-100 bg-green-100 top-50">
+                            no messages yet
+                        </div>
 
                     </div>
                 </div>
-                <button
-                    onClick={showChats}
-                >
-                    refresh
-                </button>
             </MainLayout>
 
         </>

@@ -5,8 +5,9 @@ import Link from "next/link";
 import MainLayout from "../layouts/mainLayout";
 import { useRouter } from "next/navigation";
 import FormAuth from '../components/formAuth';
-import Api, {setToken} from '../_api/api';
+import Api from '../_api/api';
 import { AxiosError } from 'axios';
+import Loading from '../loading';
 
 
 interface IUser{
@@ -27,44 +28,34 @@ export default function profile() {
     });
     
     useEffect(() => {
+        console.log("useeffect")
         async function fetchData() {
-          try {
-            
-            const res = await Api.get("/user")
-            alert(res.data.email)
-            user.id= res.data.id;
-            user.email= res.data.email;
-            user.userName= res.data.userName;
-            console.log(res.data.id)
-
-          } catch (error: any) {
+        const res = await Api.get("/user").then(responce =>{
+            console.log("responce")
+            user.id= responce.data.id;
+            user.email= responce.data.email;
+            user.userName= responce.data.userName;
+            setLoading(false);
+        }).catch(error =>{
+            console.log("error")
             if(error.status == 401){
                 alert("не авторизован")
                 router.push("/auth")
+            }else{
+                alert("Непредвиденная ошибка: " + error)
             }
-          } finally {
             setLoading(false);
-          }
+        })
+        console.log("end")
         }
     
         fetchData();
         }, []);
-    
-
         if (loading) {
-            return (
-                <MainLayout>
-                <>
-                    <p> id: Загрузка... </p>
-                    <p> имя: Загрузка... </p>
-                    <p> почта: Загрузка... </p>
-                </>
-                </MainLayout>)
-        }
-        if (error) {
-            return <p>Ошибка: {error}</p>;
-        }
-       
+            // Показываем загрузчик, пока isLoading истинно
+            return <Loading />;
+          }
+
         return(
             <MainLayout>
                 <>

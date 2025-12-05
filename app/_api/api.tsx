@@ -1,22 +1,38 @@
-"use client"
 
 import { getCookie, setCookie, deleteCookie } from 'cookies-next/client';
 
 import axios from "axios";
-
+axios.defaults.withCredentials = true;
+axios.defaults.withXSRFToken = true;
 const Api = axios.create({
-    baseURL: "http://127.0.0.1:8001/api",
-    withCredentials:true,
-    headers:{
-      'Authorization': `Bearer ${getCookie("TOKEN")}`
-    }
+  baseURL: "http://api.localhost.test/api",
+
 });
 
-export async function  setToken (tokenParam:any) {
-setCookie("TOKEN", tokenParam)
-}
-export async function getCSRF() {
-    await Api.get("/csrf-cookie")
+export function availabilityOfCSRFToken(){
+  if (!getCookie("XSRF-TOKEN")) {
+    return false
+  } else {
+    return true
   }
+}
+
+export async function getCSRF() {
+  var XSRF
+  if(!availabilityOfCSRFToken()){
   
+    await Api.get("/csrf-cookie").catch(err => {
+       XSRF = false
+    }).then(() => {
+       XSRF = true
+    })
+    
+  }else{
+    XSRF = true
+  }
+  return XSRF
+}
+
+
+
 export default Api;

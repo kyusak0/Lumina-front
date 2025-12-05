@@ -1,24 +1,29 @@
 "use client";
 import Image from 'next/image'
-import logoImage from '../assets/images/logo.svg'
+// import logoImage from '../assets/images/#chatName'
 import styles from './form.module.css';
 import { useRouter } from "next/navigation";
-import { useCookies } from 'next-client-cookies';
+
 
 import { useEffect, useState } from 'react';
-import Api, { getCSRF, setToken } from '../_api/api'
-
+import Api, { getCSRF} from '../_api/api'
+import { getCookie } from 'cookies-next/client';
+const user = await Api.get("/user").catch(error => {
+    console.log("sss")
+})
 
 export default function formAuth() {
+    
+    console.log(user)
     const router = useRouter();
-
+    
     const [form, setForm] = useState({
         userName: "",
         email: "",
         login: "",
         password: "",
-        password_confirmation: "",
-        policy: Boolean,
+        rePassword: "",
+        policy:Boolean,
     });
     const handleChange = (e: any) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -27,34 +32,29 @@ export default function formAuth() {
         e.preventDefault();
         try {
             await Api.post("/register", form);
-            const res = await Api.post("/register", {
-                userName: form.userName,
-                email: form.email,
-                login: form.login ,
+            const res = await Api.post("/login", {
+                login: form.email || form.userName,
                 password: form.password,
-                password_confirmation: form.password_confirmation
-            });
-
-            console.log(res.data.loginCheck)
-            setToken(res.data.TOKEN)
-            router.push("/profile");
-
+              });
+              
+              router.push("/profile");
+            
         } catch (err: any) {
             alert(err.response?.data?.message || "Ошибка входа");
         }
-
+      
     };
     const handleLogin = async (e: any) => {
         e.preventDefault();
         try {
+
             const res = await Api.post("/login", {
                 login: form.login,
                 password: form.password,
-            });
-            setToken(res.data.TOKEN)
 
-            console.log('авторизация прошла' + res.data.message);
-            router.push("/profile");
+            });
+            const user = await Api.get("/user");
+            console.log(user)
 
         } catch (err: any) {
             alert(err.response?.data?.message || "Ошибка входа");
@@ -69,6 +69,7 @@ export default function formAuth() {
 
     return (
         <>
+
             <div className="flex">
                 <div className="flex mx-auto gap-10">
                     <div className={styles.forms}>
@@ -77,33 +78,31 @@ export default function formAuth() {
                             <form onSubmit={handleRegister}>
                                 <div className={styles.inputWrappers}>
                                     <div className={styles.inputWrapper}>
-                                        <input placeholder='' type="text" name="userName" id="userName" onChange={handleChange} />
+                                        <input placeholder='' type="text" name="userName" id="userName" onChange={handleChange}/>
                                         <label htmlFor="">Введите никнейм</label>
                                     </div>
                                     <div className={styles.inputWrapper}>
-                                        <input placeholder='' type="email" name="email" id="email" onChange={handleChange} />
+                                        <input placeholder='' type="email" name="email" id="email" onChange={handleChange}/>
                                         <label htmlFor="email">
                                             Введите почту
                                         </label>
                                     </div>
-
                                     <div className={styles.inputWrapper}>
-                                        <input placeholder='' type="text" name="login" id="login" onChange={handleChange} />
+                                        <input placeholder='' type="login" name="login" id="login" onChange={handleChange}/>
                                         <label htmlFor="login">
-                                            Введите логин
+                                            Введите login
                                         </label>
                                     </div>
-
                                     <div className={styles.inputWrapper}>
-                                        <input placeholder='' type="text" name="password" id="password" onChange={handleChange} />
+                                        <input placeholder='' type="text" name="password" id="password" onChange={handleChange}/>
                                         <label htmlFor="">Введите пароль</label>
                                     </div>
                                     <div className={styles.inputWrapper}>
-                                        <input placeholder='' type="text" name="password_confirmation" id="password_confirmation" onChange={handleChange} />
-                                        <label htmlFor="password_confirmation">Подтверждение пароля</label>
+                                        <input placeholder='' type="text" name="rePassword" id="rePassword" onChange={handleChange}/>
+                                        <label htmlFor="rePassword">Подтверждение пароля</label>
                                     </div>
                                     <div className="ml-5 flex gap-2">
-                                        <input type="checkbox" name="policy" id="policy" onChange={handleChange} />
+                                        <input type="checkbox" name="policy" id="policy" onChange={handleChange}/>
                                         <label htmlFor="policy">policy</label>
                                     </div>
                                     <div className={styles.btns}>
@@ -116,11 +115,11 @@ export default function formAuth() {
                             <form onSubmit={handleLogin}>
                                 <div className={styles.inputWrappers}>
                                     <div className={styles.inputWrapper}>
-                                        <input placeholder='' type="text" name="login" id="login" onChange={handleChange} />
+                                        <input placeholder='' type="text" name="login" id="login" onChange={handleChange}/>
                                         <label htmlFor="">Введите почту или никнейм</label>
                                     </div>
                                     <div className={styles.inputWrapper}>
-                                        <input placeholder='' type="text" name="password" id="password" onChange={handleChange} />
+                                        <input placeholder='' type="text" name="password" id="password" onChange={handleChange}/>
                                         <label htmlFor="">Введите пароль</label>
                                     </div>
                                     <div className={styles.btns}>
@@ -133,32 +132,23 @@ export default function formAuth() {
                     <div className={open ? styles.formBackRight : styles.formBackLeft}>
                         <div className={styles.formTitle} >
                             <div className={styles.formTitleTop}>
-                                <Image
+                                {/* <Image
                                     src={logoImage}
                                     alt="Lumina's logo"
                                     width='200'
-                                    height='60' />
+                                    height='60' /> */}
 
                                 <h2 className='text-3xl mb-8 text-center'>Добро пожаловать</h2>
                             </div>
                             <div className={styles.formTitleBottom}>
-                                {open
-                                    ? <button
-                                        className={styles.btn}
-                                        onClick={handleClick}
-                                    >
-                                        Уже есть аккаунт?
-                                        <br></br>
-                                        Войти
-                                    </button>
-                                    : <button
-                                        className={styles.btn}
-                                        onClick={handleClick}
-                                    >
-                                        Ещё нет аккаунта?
-                                        <br></br>
-                                        Создать
-                                    </button>}
+                                <button
+                                    className={styles.btn}
+                                    onClick={handleClick}
+                                >
+                                    Уже есть аккаунт?
+                                    <br></br>
+                                    Войти
+                                </button>
                             </div>
                         </div>
                     </div>

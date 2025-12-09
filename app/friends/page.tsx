@@ -20,6 +20,7 @@ export default function Friends() {
 
     const [senderId, setSenderId] = useState(0);
     const [chatId, setChatId] = useState(0);
+    const [isSelectedChat, setIsSelectedChat] = useState(false);
     const [chatName, setChatName] = useState("new chat");
 
     const chatSelect = (id: number) => {
@@ -27,6 +28,7 @@ export default function Friends() {
             return;
         }
         setChatId(id - 1);
+        setIsSelectedChat(true)
     }
 
     // const deleteChat = (id: number) => {
@@ -55,12 +57,7 @@ export default function Friends() {
 
         const newNameField = document.querySelector('#chatName') as HTMLInputElement;
         const newName = newNameField?.value;
-
-        // id: newChatId,
-        //     chat_name: newName.toString() || 'new user',
-        //         creator_id: user_id,
-
-        //             newNameField.value = '';
+        newNameField.value = '';
 
         try {
             await getCSRF();
@@ -90,7 +87,7 @@ export default function Friends() {
     const [chats, setChats] = useState<Chat[]>([]);
 
     const showChats = async () => {
-        const res = await api.post("/allChat");
+        const res = await api.get("/allChat");
 
         console.log("Message sent successfully:", res.data.mess);
 
@@ -172,15 +169,15 @@ export default function Friends() {
                             </button>
                         </div>
                     </div>
-                    <div className="w-2/4">
+                    <div className="web-block">
+                    <div className={`${isSelectedChat ? '' : 'hidden'}
+                        w-2/4`}>
                         <ChatWindow
                             key={chatId}
                             chat_id={chatId + 1}
                         />
-                        <div className="absolute w-2/4 flex items-center z-index-1 justify-center h-100 bg-green-100 top-50">
-                            no messages yet
-                        </div>
 
+                    </div>
                     </div>
                 </div>
             </MainLayout>

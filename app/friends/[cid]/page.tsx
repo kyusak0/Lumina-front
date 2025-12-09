@@ -264,7 +264,7 @@ export default function Chat({ chat_id }: ChatProps) {
                 <p>Messages' count: {messages.length}</p>
             </div>
 
-            <div className="messages w-full mb-4 max-h-100 overflow-y-auto border rounded-lg p-2">
+            <div className="messages m-auto w-150 h-80 mb-4 max-h-100 overflow-y-auto border rounded-lg p-2">
                 {messages.length === 0 ? (
                     <p className="text-gray-500 text-center p-4">No messages yet</p>
                 ) : (
@@ -304,7 +304,7 @@ export default function Chat({ chat_id }: ChatProps) {
                 absolute bg-blue-200 flex flex-col items-center gap-4 p-5 w-50
                 `}
                         style={{
-                            left: `${context.x_position - 800}px`,
+                            left: `${context.x_position - 900}px`,
                             top: `${context.y_position - 150}px`,
                         }}>
                         <h3>Context menu</h3>

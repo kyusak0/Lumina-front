@@ -4,8 +4,8 @@ import { getCookie, setCookie, deleteCookie } from 'cookies-next/client';
 import axios from "axios";
 axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
-const Api = axios.create({
-  baseURL: "http://api.localhost.test/api",
+const api = axios.create({
+  baseURL: "http://api.localhost.test:8001/api",
 
 });
 
@@ -21,7 +21,7 @@ export async function getCSRF() {
   var XSRF
   if(!availabilityOfCSRFToken()){
   
-    await Api.get("/csrf-cookie").catch(err => {
+    await api.get("/csrf-cookie").catch(err => {
        XSRF = false
     }).then(() => {
        XSRF = true
@@ -35,4 +35,4 @@ export async function getCSRF() {
 
 
 
-export default Api;
+export default api;

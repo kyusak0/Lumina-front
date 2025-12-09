@@ -45,6 +45,8 @@ export default function profile() {
                 alert("Непредвиденная ошибка: " + error)
             }
             setLoading(false);
+        }).finally (() => {
+            //выполнение в любом случае
         })
         console.log("end")
         }

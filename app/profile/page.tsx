@@ -4,7 +4,7 @@ import { Suspense, useState, useEffect} from 'react'
 import Link from "next/link";
 import MainLayout from "../layouts/mainLayout";
 import { useRouter } from "next/navigation";
-import FormAuth from '../components/formAuth';
+import FormAuth from '../components/formAuth/formAuth';
 import Api from '../_api/api';
 import { AxiosError } from 'axios';
 import Loading from '../loading';

@@ -1,29 +1,31 @@
-"use client"
-import Header from "../components/Header";
-import Api, { availabilityOfCSRFToken, getCSRF } from "../_api/api";
-
+'use client'
+import Header from "../components/header/Header";
+import Sidebar from '../components/sidebar/Sidebar';
+import api, { availabilityOfCSRFToken, getCSRF } from "../_api/api";
 var XSRF = await getCSRF();
-function backendIsAvailable(){
-  if(!XSRF){
-    console.log("server is dead : " )
-    {/* сервер умер*/}
-  }else{
-    console.log("server is alive : " )
+function backendIsAvailable() {
+  if (!XSRF) {
+    console.log("server is dead : ")
+    {/* сервер умер*/ }
+  } else {
+    console.log("server is alive : ")
   }
-  
 }
-
-
-
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
 
-  backendIsAvailable()
+  backendIsAvailable();
+
   return (
     <>
-      <Header /> 
-      <main>{children}</main>
-    </>
+      <Header />
+      <main className="flex justify-evenly">
+        <Sidebar />
+        <div className="flex w-3/4 flex-col items-center">
+          {children}
+        </div>
 
+      </main>
+    </>
   );
 }

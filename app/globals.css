@@ -2,8 +2,10 @@
 
 :root {
   --background: #ffffff;
-  --main: #023859;
-  --secondary: #26658C;
+  --main: #000000;
+  --secondary: #06CCC2;
+  --text-dark: #000000;
+  --text-light: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,18 +22,12 @@
 
 body {
   /* background: var(--background); */
-  color: var(--main);
   font-family: Roboto, sans-serif;
   max-width: 1920px;
 }
 
 header {
   background-color: var(--main);
-  position: fixed;
-  top: 0;
-  left: 0;
-  padding: 20px 60px;
-  z-index: 2;
 }
 
 header+main {
@@ -43,11 +39,52 @@ button {
 }
 
 .btn {
-  width: 220px;
-  height: 60px;
-  color: var(--background);
+  min-width: 150px;
+  min-height: 40px;
+  max-height: 40px;
+  color: var(--text-light);
   background-color: var(--secondary);
-  border-radius: 20px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-reverse {
+  min-width: 40px;
+  color: var(--secondary);
+  background-color: var(--background);
+  border: 2px solid var(--secondary);
+}
+
+.logo {
+  min-width: 150px;
+  max-width: 200px;
+  height: 60px;
+}
+
+a{
+  transition: 0.3s ease;
+}
+
+a:hover, a.active{
+  color: var(--secondary);
+}
+
+main {}
+
+.sidebar {
+  /* border: 2px solid var(--secondary); */
+  box-shadow: 2px 4px 4px 4px #00000025;
+  border-radius: 10px;
+  width: 300px;
+  height: max-content;
+}
+
+.post{
+    border-radius: 10px;
+
+  box-shadow: 2px 4px 4px 4px #00000025;
 }
 
 .hidden {
@@ -60,6 +97,10 @@ button {
 
 .web-block {
   display: block;
+}
+
+.chatlist{
+  max-height: 1000px;
 }
 
 @media screen and (max-width: 600px) {

@@ -1,6 +1,6 @@
 'use client'
 
-import FormAuth from '../components/formAuth';
+import FormAuth from '../components/formAuth/formAuth';
 import { useState } from 'react';
 import MainLayout from '../layouts/mainLayout';
 import { useRouter } from "next/navigation";

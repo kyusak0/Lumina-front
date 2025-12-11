@@ -37,7 +37,7 @@ export default function Chat({ chat_id }: ChatProps) {
     const wsRef = useRef<WebSocket | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    
+
 
     const checkUser = async () => {
         try {
@@ -226,15 +226,10 @@ export default function Chat({ chat_id }: ChatProps) {
             setContext({
                 mess_id: messId,
                 visible: true,
-                x_position: event.clientX,
-                y_position: event.clientY,
+                x_position: event.clientX - 700,
+                y_position: event.clientY - 150,
             });
-
-            console.log(event.clientX)
         }
-
-
-
     }
 
     if (chatId == '0' || !chatId) {
@@ -264,7 +259,7 @@ export default function Chat({ chat_id }: ChatProps) {
                 <p>Messages' count: {messages.length}</p>
             </div>
 
-            <div className="messages w-full mb-4 max-h-100 overflow-y-auto border rounded-lg p-2">
+            <div className="messages m-auto h-80 mb-4 max-h-100 overflow-y-auto border rounded-lg p-2">
                 {messages.length === 0 ? (
                     <p className="text-gray-500 text-center p-4">No messages yet</p>
                 ) : (
@@ -276,7 +271,7 @@ export default function Chat({ chat_id }: ChatProps) {
                                 }`}
                             key={message.id}
                         >
-                            <div className="flex justify-between items-start">
+                            <div className="w-full items-start">
                                 <p className="text-sm font-semibold">
                                     {message.sender_id === senderId ? 'You' : `User ${message.sender_id}`}
                                 </p>
@@ -304,8 +299,8 @@ export default function Chat({ chat_id }: ChatProps) {
                 absolute bg-blue-200 flex flex-col items-center gap-4 p-5 w-50
                 `}
                         style={{
-                            left: `${context.x_position - 800}px`,
-                            top: `${context.y_position - 150}px`,
+                            left: `${context.x_position}px`,
+                            top: `${context.y_position}px`,
                         }}>
                         <h3>Context menu</h3>
                         <button>edit</button>

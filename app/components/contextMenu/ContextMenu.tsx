@@ -46,15 +46,12 @@ export default function ContextMenu({
         });
     };
 
-    const closeContextMenu = (event: MouseEvent | MouseEvent | PointerEvent) => {
+    const closeContextMenu = (event: Event | MouseEvent | MouseEvent | PointerEvent) => {
         event.preventDefault();
         event.stopPropagation();
         setContext(prev => ({ ...prev, visible: false }));
     };
 
-    const handleMenuClick = (event: MouseEvent) => {
-        event.stopPropagation();
-    };
 
     if (secondaryActivatorId) {
         let secondaryActivator = document.getElementById(secondaryActivatorId);
@@ -65,17 +62,13 @@ export default function ContextMenu({
         }
     }
 
-    const handleBgClick = (event: Event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        setContext(prev => ({ ...prev, visible: false }));
-    };
+    if (context.visible) {
+        const bgs = document.querySelectorAll('.contextMenu-bg');
+        bgs.forEach(bg => {
+            bg.addEventListener('click', closeContextMenu);
+        });
+    }
 
-    // Initial setup
-    const bgs = document.querySelectorAll('.contextMenu-bg');
-    bgs.forEach(bg => {
-        bg.addEventListener('click', handleBgClick);
-    });
 
 
     return (
@@ -102,7 +95,7 @@ export default function ContextMenu({
                         }}
                     >
                         <div className="flex justify-end">
-                            <button onClick={closeContextMenu}>
+                            <button onClick={(event) => closeContextMenu(event)}>
                                 ×
                             </button>
                         </div>

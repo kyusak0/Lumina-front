@@ -21,7 +21,10 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <Header />
       <main className="flex justify-evenly">
         <Sidebar />
-        <div className="flex w-3/4 flex-col items-center">
+        <div className="sidebar-border w-1/4">
+
+        </div>
+        <div className="flex w-full flex-col items-center">
           {children}
         </div>
 

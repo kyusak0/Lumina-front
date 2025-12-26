@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from 'react';
 import { MouseEvent } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import ContextMenu from '@/app/components/contextMenu/ContextMenu';
 
 export interface Message {
     id: number
@@ -236,9 +237,6 @@ export default function Chat({ chat_id }: ChatProps) {
         return
     }
 
-
-
-
     return (
         <div className="">
             <div className={`p-2 flex justify-evenly mb-4 text-white ${isConnected ? 'bg-green-600' : 'bg-red-600'}`}>
@@ -259,19 +257,19 @@ export default function Chat({ chat_id }: ChatProps) {
                 <p>Messages' count: {messages.length}</p>
             </div>
 
-            <div className="messages m-auto h-80 mb-4 max-h-100 overflow-y-auto border rounded-lg p-2">
+            <div className="messages m-auto h-110 mb-4 max-h-180 overflow-y-auto border rounded-lg p-2">
                 {messages.length === 0 ? (
                     <p className="text-gray-500 text-center p-4">No messages yet</p>
                 ) : (
                     messages.map((message: Message) => (
-                        <div onContextMenu={(e) => { messClick(e, message.id) }}
+                        <div id={`${message.id}`}
                             className={`p-3 mb-2 rounded ${message.sender_id === senderId
                                 ? 'bg-blue-100 border-l-4 border-blue-500 ml-8'
                                 : 'bg-gray-100 border-l-4 border-gray-500 mr-8'
                                 }`}
                             key={message.id}
                         >
-                            <div className="w-full items-start">
+                            <div id={`${message.chat_id}`} className="w-full items-start">
                                 <p className="text-sm font-semibold">
                                     {message.sender_id === senderId ? 'You' : `User ${message.sender_id}`}
                                 </p>
@@ -282,32 +280,22 @@ export default function Chat({ chat_id }: ChatProps) {
                                 )}
                             </div>
                             <p className="text-gray-800 mt-1">{message.content}</p>
-
-
+                            <ContextMenu contextMenuId={message.id} openContextMenuText={null} secondaryActivatorId={`${message.id}`}>
+                                <h3>{message.content}</h3>
+                                {message.id}
+                                <button>edit</button>
+                                <button>delete</button>
+                                <button>forward</button>
+                            </ContextMenu>
                         </div>
+
                     ))
                 )}
 
 
                 <div ref={messagesEndRef} />
 
-                <div className={`${context.visible ? '' : 'hidden'} 
-            w-100 bg-transparent absolute top-40 bg-blue-100 `}
-                >
-                    <div
-                        className={`${context.visible ? '' : 'hidden'}
-                absolute bg-blue-200 flex flex-col items-center gap-4 p-5 w-50
-                `}
-                        style={{
-                            left: `${context.x_position}px`,
-                            top: `${context.y_position}px`,
-                        }}>
-                        <h3>Context menu</h3>
-                        <button>edit</button>
-                        <button>delete</button>
-                        <button>forward</button>
-                    </div>
-                </div>
+
             </div>
 
             <div className="flex gap-2 mb-4">

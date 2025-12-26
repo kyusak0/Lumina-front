@@ -11,9 +11,8 @@ export default function Sidebar() {
         setPopUpOpen(!popUpOpen);
     }
     return (<>
-
-        <div className={`${popUpOpen ? '' : 'hidden'} sidebar relative p-10 gap-5 flex flex-col`}>
-            <button className='absolute top-5 right-5' onClick={closePopUp}>x</button>
+        <div className={`${popUpOpen ? '' : 'hidden'} sidebar fixed top-20 left-0 p-20 gap-5 flex flex-col`}>
+            <button className='absolute top-5 left-5' onClick={closePopUp}>x</button>
             <Link href="/" className={`${currentPath == '/' ? 'active' : ''}`}> Главная </Link>
             <Link href="/friends" className={`${currentPath == '/friends' ? 'active' : ''}`}> Чаты </Link>
             <Link href="/videos" className={`${currentPath == '/videos' ? 'active' : ''}`}> Видео-лента </Link>

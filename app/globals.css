@@ -24,6 +24,7 @@ body {
   /* background: var(--background); */
   font-family: Roboto, sans-serif;
   max-width: 1920px;
+  margin: 0 auto;
 }
 
 header {
@@ -39,7 +40,8 @@ button {
 }
 
 .btn {
-  min-width: 150px;
+  min-width: 40px;
+  padding: 10px;
   min-height: 40px;
   max-height: 40px;
   color: var(--text-light);
@@ -63,28 +65,39 @@ button {
   height: 60px;
 }
 
-a{
+a {
   transition: 0.3s ease;
 }
 
-a:hover, a.active{
+a:hover,
+a.active {
   color: var(--secondary);
 }
 
-main {}
+main {
+  width: 100%;
+}
 
 .sidebar {
   /* border: 2px solid var(--secondary); */
-  box-shadow: 2px 4px 4px 4px #00000025;
+  /* box-shadow: 2px 4px 4px 4px #00000025; */
   border-radius: 10px;
-  width: 300px;
+  width: 400px;
   height: max-content;
 }
 
-.post{
-    border-radius: 10px;
+.sidebar-border {
+  border-right: 1px solid var(--main);
+}
 
+.post {
+  border-radius: 10px;
+  width: 700px;
   box-shadow: 2px 4px 4px 4px #00000025;
+}
+
+.post p {
+  word-break: break-all;
 }
 
 .hidden {
@@ -99,8 +112,50 @@ main {}
   display: block;
 }
 
-.chatlist{
+.chatlist {
   max-height: 1000px;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+
+  .popup-content {
+    background-color: var(--background);
+    width: 500px;
+
+  }
+
+  .popup-bg {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100vh;
+    background-color: #0a0a0a5c;
+  }
+}
+
+.contextMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+
+  .contextMenu-content {
+    background-color: var(--background);
+    padding: 20px;
+    width: 200px;
+  }
+
+  .contextMenu-bg {
+    width: 100%;
+    height: 100vh;
+    margin: auto;
+    background-color: #0a0a0a00;
+  }
 }
 
 @media screen and (max-width: 600px) {

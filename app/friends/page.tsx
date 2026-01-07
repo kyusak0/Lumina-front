@@ -9,6 +9,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 
 import ChatWindow from './[cid]/page'
+import ContextMenu from "../components/contextMenu/ContextMenu";
+import Popup from "../components/popup/Popup";
 
 
 export interface Chat {
@@ -31,14 +33,6 @@ export default function Friends() {
         setChatId(id - 1);
         setIsSelectedChat(true)
     }
-
-    // const deleteChat = (id: number) => {
-    //     if (!id) {
-    //         return;
-    //     }
-    //     chats.splice(id - 1, 1);
-    //     chatSelect(id);
-    // }
 
     const checkUser = async () => {
         try {
@@ -130,11 +124,10 @@ export default function Friends() {
     }, [senderId]);
 
     const [chatListWidth, setChatListWidth] = useState('w-2/4');
-    // const [chatContentWidth, setChatContentWidth] = useState('w-2/4');
 
     const handleSelectWidth = (e: any) => {
-        e.target.value == 'hide' ? hideChatList() : setChatListWidth(e.target.value);
-        openPopUp();
+        console.log(e.target.value)
+        setChatListWidth(e.target.value);
     }
 
     const [chatList, setChatList] = useState<{
@@ -146,62 +139,52 @@ export default function Friends() {
             text: 'hide',
         });
 
-    const hideChatList = () => {
-        setChatList({
-            visible: !chatList.visible,
-            text: chatList.visible ? 'Show' : 'hide',
-        });
-    }
 
-    const [popUpOpen, setPopUpOpen] = useState(false);
-
-    const openPopUp = () => {
-        setPopUpOpen(!popUpOpen);
-    }
 
     return (
         <MainLayout>
-            <div className="w-full flex justify-between">
-                <button className={`${chatList.visible ? 'hidden' : ''} btn btn-reverse`} onClick={hideChatList}>{chatList.text}</button>
-                <div className={`${chatList.visible ? chatListWidth : 'hidden'} border-r pr-4`}>
+            <div className=" w-full flex justify-center">
+                <div className={`${chatListWidth}`}>
                     <div className="flex justify-around items-center">
                         <h2 className="text-lg font-bold my-4">Friends</h2>
-                        <button className="btn btn-reverse" onClick={openPopUp}>...</button>
-                        <div className={`${popUpOpen ? '' : 'hidden'} absolute top-40 left-100 bg-blue-100 p-10 w-1/4`}>
-                            <div className="relative">
-                                <button className="absolute top-0 right-0" onClick={openPopUp}>x</button>
-                                <select name="" id="" className=" btn btn-reverse" onChange={(e) => handleSelectWidth(e)}>
-                                    <option value='w-2/4'>default</option>
-                                    <option value='w-1/4'>1/4</option>
-                                    <option value='w-full'>1/2</option>
-                                    <option value='hide'>{chatList.text}</option>
-                                </select>
-                                <form onSubmit={(event) => newChatName(event)}>
-                                    <input type="text" name="name" id="name" placeholder="name of chat" onChange={(e) => setChatName(e.target.value)} value={chatName} />
-                                    <input type="hidden" name="creator_id" value={senderId} />
-                                    <button type="submit">
-                                        new chat
-                                    </button></form>
-                                <button onClick={showChats} >
-                                    refresh
-                                </button>
-                            </div>
-                        </div>
+                        <Popup popupId="settingsChat" openPopupText="...">
+                            <select name="" id="" className=" btn btn-reverse" onChange={(e) => handleSelectWidth(e)}>
+                                <option value='w-2/4'>default</option>
+                                <option value='w-1/4'>1/4</option>
+                                <option value='w-full'>1/2</option>
+                            </select>
+                            <form onSubmit={(event) => newChatName(event)}>
+                                <input type="text" name="name" id="name" placeholder="name of chat" onChange={(e) => setChatName(e.target.value)} value={chatName} />
+                                <input type="hidden" name="creator_id" value={senderId} />
+                                <button type="submit">
+                                    new chat
+                                </button></form>
+                            <button onClick={showChats} >
+                                refresh
+                            </button>
+                        </Popup>
                     </div>
-                    <div className="max-h-100 overflow-y-auto">
+                    <div className="max-h-140 overflow-y-auto">
                         {chats.map((chat: Chat) => (
                             <div key={chat.id}>
-                                <div className="web-block" onContextMenu={(event) => openContextMenu(event, chat.id)}>
-                                    <button onClick={() => chatSelect(chat.id)}
+                                <div className="web-block">
+                                    <div onClick={() => chatSelect(chat.id)}
 
-                                        className={`block px-3 py-5 rounded w-full ${chat.id - 1 === chatId
+                                        className={`block px-3 py-5 rounded w-full flex items-center justify-between ${chat.id - 1 === chatId
                                             ? 'bg-blue-100 border border-blue-300'
                                             : 'hover:bg-gray-100'
                                             }`}>
                                         <div> {chat.name} </div>
-                                    </button>
+
+                                        <ContextMenu contextMenuId={chatId} openContextMenuText="..." secondaryActivatorId={null}>
+                                            <h3>{chat.name}</h3>
+                                            <button>edit</button>
+                                            <button>delete</button>
+                                            <button>forward</button>
+                                        </ContextMenu>
+                                    </div>
                                 </div>
-                                <div className="adaptive-block" onContextMenu={(event) => openContextMenu(event, chat.id)}>
+                                <div className="adaptive-block">
                                     <Link href={`friends/${chat.id}`}
                                         onClick={() => chatSelect(chat.id)}
                                         className={`block px-3 py-5 rounded w-full ${chat.id - 1 === chatId
@@ -212,23 +195,15 @@ export default function Friends() {
                                         <div
                                         >
                                             {chat.name}
+
+                                            <ContextMenu contextMenuId={chatId} openContextMenuText="..." secondaryActivatorId={null} >
+                                                <h3>{chat.name}</h3>
+                                                <button>edit</button>
+                                                <button>delete</button>
+                                                <button>forward</button>
+                                            </ContextMenu>
                                         </div>
                                     </Link>
-                                </div>
-
-                                <div className={`${context.visible ? '' : 'hidden'} w-100 bg-transparent absolute top-40 bg-blue-100`}>
-                                    <div className={`${context.visible ? '' : 'hidden'} absolute bg-blue-200 flex flex-col items-center gap-4 p-5 w-50`}
-                                        style={{ left: `${context.x_position}px`, top: `${context.y_position}px` }}>
-                                        <div className="relative">
-                                            <div className="absolute top-0 right-0">
-                                                x
-                                            </div>
-                                            <h3>{chat.name}</h3>
-                                            <button>edit</button>
-                                            <button>delete</button>
-                                            <button>forward</button>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         ))}
@@ -237,6 +212,7 @@ export default function Friends() {
                 <div className={`${isSelectedChat ? '' : 'hidden'} web-block w-full`}>
                     <ChatWindow key={chatId + 1} chat_id={chatId + 1} />
                 </div>
+                <div className={`${isSelectedChat ? 'hidden' : ''} className="flex justify-center w-2/4 mt-70`}>Select chat and start message</div>
             </div>
         </MainLayout>
     )

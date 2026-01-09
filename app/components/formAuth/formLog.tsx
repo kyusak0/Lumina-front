@@ -4,7 +4,7 @@ import logoImage from '../../assets/images/logo.svg';
 import styles from './form.module.css';
 import { useRouter } from "next/navigation";
 import DotPattern from '../ui/dotPattern';
-
+import Loading from '../../loading';
 
 import { useEffect, useRef, useState } from 'react';
 import Api, { getCSRF } from '../../_api/api'
@@ -14,6 +14,9 @@ const user = await Api.post("/user").catch(error => {
 })
 
 export default function formAuth() {
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const dotPatternRef = useRef<HTMLDivElement | null>(null);
@@ -99,6 +102,7 @@ export default function formAuth() {
 
     };
     const handleLogin = async (e: any) => {
+        setLoading(true)
         e.preventDefault();
         try {
 
@@ -107,9 +111,9 @@ export default function formAuth() {
                 password: form.password,
 
             });
-            const user = await Api.get("/user");
-            console.log(user)
-
+            router.push('/profile')
+            
+            
         } catch (err: any) {
             alert(err.response?.data?.message || "Ошибка входа");
         }
@@ -118,6 +122,9 @@ export default function formAuth() {
     const [open, setOpen] = useState(false);
     const handleClick = () => {
         setOpen(!open);
+    }
+    if(loading){
+        return(Loading)
     }
 
 

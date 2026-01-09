@@ -4,7 +4,7 @@ import { Suspense, useState, useEffect} from 'react'
 import Link from "next/link";
 import MainLayout from "../layouts/mainLayout";
 import { useRouter } from "next/navigation";
-import FormAuth from '../components/formAuth/formAuth';
+import FormAuth from '../components/formAuth/formLog';
 import Api from '../_api/api';
 import { AxiosError } from 'axios';
 import Loading from '../loading';
@@ -30,7 +30,7 @@ export default function profile() {
     useEffect(() => {
         console.log("useeffect")
         async function fetchData() {
-        const res = await Api.get("/user").then(responce =>{
+        const res = await Api.post("/user").then(responce =>{
             console.log("responce")
             user.id= responce.data.id;
             user.email= responce.data.email;

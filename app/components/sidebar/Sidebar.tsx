@@ -15,7 +15,7 @@ export default function Sidebar() {
     }
     return (
         <>
-            <div className='fixed w-full top-0 left-0 z-2'>
+            <div className='fixed w-full top-0 left-0 z-1'>
                 <div
                     onMouseMove={closeSidebar}
                     className={`duration-300 absolute h-screen bg-black ${sidebarOpen ? 'w-3/4' : 'w-0'} right-0 opacity-60`}

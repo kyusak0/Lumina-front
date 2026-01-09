@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function Header() {
     return (
-        <header className="fixed flex items-center justify-between w-full py-2 px-60 top-0 left-0 z-3">
+        <header className="fixed flex items-center justify-between w-full py-2 px-60 top-0 left-0 z-2">
             <Link href="/">
                 <Image
                     src={logoImage}

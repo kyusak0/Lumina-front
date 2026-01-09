@@ -33,9 +33,7 @@ export default function Videos() {
                     </Popup>
                 </li>
                 <li>
-                    <ContextMenu contextMenuId="1" openContextMenuText="2" secondaryActivatorId='3'>
                         2
-                    </ContextMenu>
                 </li>
 
                 <li id="3">3</li>

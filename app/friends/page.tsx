@@ -176,7 +176,7 @@ export default function Friends() {
                                             }`}>
                                         <div> {chat.name} </div>
 
-                                        <ContextMenu contextMenuId={chatId} openContextMenuText="..." secondaryActivatorId={null}>
+                                        <ContextMenu contextMenuId={chatId} openContextMenuText="..." secondaryActivator={null}>
                                             <h3>{chat.name}</h3>
                                             <button>edit</button>
                                             <button>delete</button>
@@ -196,7 +196,7 @@ export default function Friends() {
                                         >
                                             {chat.name}
 
-                                            <ContextMenu contextMenuId={chatId} openContextMenuText="..." secondaryActivatorId={null} >
+                                            <ContextMenu contextMenuId={chatId} openContextMenuText="..." secondaryActivator={null} >
                                                 <h3>{chat.name}</h3>
                                                 <button>edit</button>
                                                 <button>delete</button>

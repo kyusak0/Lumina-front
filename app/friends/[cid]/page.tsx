@@ -262,32 +262,38 @@ export default function Chat({ chat_id }: ChatProps) {
                     <p className="text-gray-500 text-center p-4">No messages yet</p>
                 ) : (
                     messages.map((message: Message) => (
-                        <div id={`${message.id}`}
-                            className={`p-3 mb-2 rounded ${message.sender_id === senderId
-                                ? 'bg-blue-100 border-l-4 border-blue-500 ml-8'
-                                : 'bg-gray-100 border-l-4 border-gray-500 mr-8'
-                                }`}
+                        <ContextMenu
                             key={message.id}
-                        >
-                            <div id={`${message.chat_id}`} className="w-full items-start">
-                                <p className="text-sm font-semibold">
-                                    {message.sender_id === senderId ? 'You' : `User ${message.sender_id}`}
-                                </p>
-                                {message.created_at && (
-                                    <p className="text-xs text-gray-500">
-                                        {new Date(message.created_at).toLocaleTimeString()}
-                                    </p>
-                                )}
-                            </div>
-                            <p className="text-gray-800 mt-1">{message.content}</p>
-                            <ContextMenu contextMenuId={message.id} openContextMenuText={null} secondaryActivatorId={`${message.id}`}>
-                                <h3>{message.content}</h3>
-                                {message.id}
-                                <button>edit</button>
-                                <button>delete</button>
-                                <button>forward</button>
-                            </ContextMenu>
-                        </div>
+                            contextMenuId={message.id}
+                            openContextMenuText={null}
+                            secondaryActivator={
+                                <div id={`${message.id}`}
+                                    className={`p-3 mb-2 rounded ${message.sender_id === senderId
+                                        ? 'bg-blue-100 border-l-4 border-blue-500 ml-8'
+                                        : 'bg-gray-100 border-l-4 border-gray-500 mr-8'
+                                        }`}
+
+                                >
+                                    <div id={`${message.chat_id}`} className="w-full items-start">
+                                        <p className="text-sm font-semibold">
+                                            {message.sender_id === senderId ? 'You' : `User ${message.sender_id}`}
+                                        </p>
+                                        {message.created_at && (
+                                            <p className="text-xs text-gray-500">
+                                                {new Date(message.created_at).toLocaleTimeString()}
+                                            </p>
+                                        )}
+                                    </div>
+                                    <p className="text-gray-800 mt-1">{message.content}</p>
+
+                                </div>}>
+                            <h3>{message.content}</h3>
+                            {message.id}
+                            <button>edit</button>
+                            <button>delete</button>
+                            <button>forward</button>
+                        </ContextMenu>
+
 
                     ))
                 )}

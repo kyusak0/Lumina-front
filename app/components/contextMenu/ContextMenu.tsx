@@ -4,14 +4,14 @@ interface ContextMenuProps {
     children: React.ReactNode;
     contextMenuId: any;
     openContextMenuText: string | null;
-    secondaryActivatorId: string | null;
+    secondaryActivator: React.ReactNode | null;
 }
 
 export default function ContextMenu({
     children,
     contextMenuId,
     openContextMenuText,
-    secondaryActivatorId
+    secondaryActivator
 }: ContextMenuProps) {
     const [context, setContext] = useState<{
         visible: boolean;
@@ -22,84 +22,61 @@ export default function ContextMenu({
         x: 0,
         y: 0,
     });
-    useEffect(() => {
-        const handleClickOutside = (event: globalThis.MouseEvent) => {
-            if (context.visible) {
-                setContext(prev => ({ ...prev, visible: false }));
-            }
-        };
-
-        return () => {
-            document.removeEventListener('click', handleClickOutside);
-        };
-    }, [context.visible]);
 
     const openContextMenu = (event: MouseEvent | MouseEvent | PointerEvent) => {
-        event.preventDefault();
-        event.stopPropagation();
-        let x = event.clientX;
-        let y = event.clientY;
         setContext({
             visible: true,
-            x,
-            y,
+            x: event.clientX,
+            y: event.clientY,
         });
     };
 
-    const closeContextMenu = (event: Event | MouseEvent | MouseEvent | PointerEvent) => {
-        event.preventDefault();
-        event.stopPropagation();
+    const closeContextMenu = () => {
         setContext(prev => ({ ...prev, visible: false }));
     };
-
-
-    if (secondaryActivatorId) {
-        let secondaryActivator = document.getElementById(secondaryActivatorId);
-        if (secondaryActivator) {
-            secondaryActivator.onclick = (event) => {
-                openContextMenu(event);
-            };
-        }
-    }
-
-    if (context.visible) {
-        const bgs = document.querySelectorAll('.contextMenu-bg');
-        bgs.forEach(bg => {
-            bg.addEventListener('click', closeContextMenu);
-        });
-    }
-
-
 
     return (
         <>
             {openContextMenuText && (
                 <button
-                    className="btn btn-reverse"
+                    className="px-5 py-2 rounded-lg border-2 text-green-400 border-green-400 hover:bg-gray-100"
                     onClick={openContextMenu}
                 >
                     {openContextMenuText}
                 </button>)}
 
+            {secondaryActivator && (
+                <div
+                    onClick={openContextMenu}
+                >
+                    {secondaryActivator}
+                </div>)}
+
             {context.visible && (
                 <div
-                    className="z-50 contextMenu"
+                    className="fixed w-full h-screen top-0 left-0"
                     id={contextMenuId}
                 >
-                    <div className="contextMenu-bg"></div>
                     <div
-                        className="absolute contextMenu-content"
+                        className="absolute w-full h-screen"
+                        onClick={closeContextMenu}
+                    >
+                    </div>
+                    <div
+                        className="absolute bg-white"
                         style={{
                             left: `${context.x}px`,
                             top: `${context.y}px`,
                         }}
                     >
-                        <div className="flex justify-end">
-                            <button onClick={(event) => closeContextMenu(event)}>
-                                ×
-                            </button>
-                        </div>
-                        <div>
+
+                        <button
+                            className="absolute top-5 right-5"
+                            onClick={closeContextMenu}
+                        >
+                            ❌
+                        </button>
+                        <div className="pt-15 px-10">
                             {children}
                         </div>
                     </div>

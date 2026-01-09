@@ -4,6 +4,7 @@ import MainLayout from "./layouts/mainLayout";
 import Api, { getCSRF } from "./_api/api";
 import Link from "next/link";
 import Popup from "./components/popup/Popup";
+import { useState } from "react";
 
 getCSRF();
 
@@ -28,21 +29,20 @@ export default function MainPage() {
         media: null,
     },]
 
-    const likeClick = (event: React.MouseEvent<HTMLDivElement>) => {
-        const btn = event.currentTarget;
-        btn.classList.toggle('btn-reverse');
+    const [liked, setLiked] = useState(false)
 
-        alert('liked');
+    const likeClick = () => {
+        setLiked(!liked)
     }
 
     return (
         <MainLayout>
             <div className="w-full flex items-center  justify-evenly">
                 <form method="post" className="form-create" onSubmit={handleSubmit}>
-                    <button type="submit" className="btn">create post</button>
+                    <button type="submit" className="px-5 py-2 rounded-lg text-white bg-green-400 hover:bg-green-500">create post</button>
                 </form>
                 <form method="get" className="form-search" onSubmit={handleSubmit}>
-                    <button type="submit" className="btn">search post</button>
+                    <button type="submit" className="px-5 py-2 rounded-lg text-white bg-green-400 hover:bg-green-500">search post</button>
                 </form>
             </div>
             <div className="posts mt-5">
@@ -81,7 +81,7 @@ export default function MainPage() {
 
                                             <form method="post" className="form-create" onSubmit={handleSubmit}>
                                                 <input type="text" name="" id="" placeholder="type your comment...." />
-                                                <button type="submit" className="btn">comment</button>
+                                                <button type="submit" className="px-5 py-2 rounded-lg text-white bg-green-400 hover:bg-green-500">comment</button>
                                             </form>
                                         </Popup>
                                     </div>
@@ -96,9 +96,10 @@ export default function MainPage() {
                         <p>
                             {post.postDesc}
                         </p>
-                        <div className="btn btn-reverse w-10 mb-2" onClick={likeClick}>
-                            like
-                        </div>
+                        <button className="" onClick={likeClick}>
+                            {liked ? '❤️' : '🤍'}
+                            
+                        </button>
                         <Popup popupId="popup-comment" openPopupText="comment">
                             <h3>
                                 comment to {post.postTitle}
@@ -112,7 +113,7 @@ export default function MainPage() {
 
                             <form method="post" className="form-create" onSubmit={handleSubmit}>
                                 <input type="text" name="" id="" placeholder="type your comment...." />
-                                <button type="submit" className="btn">comment</button>
+                                <button type="submit" className="px-5 py-2 rounded-lg text-white bg-green-400 hover:bg-green-500">comment</button>
                             </form>
                         </Popup>
                     </div>

@@ -65,22 +65,19 @@ button {
   height: 60px;
 }
 
-a {
+/* a {
   transition: 0.3s ease;
 }
 
 a:hover,
 a.active {
   color: var(--secondary);
-}
+} */
 
-main {
-  width: 100%;
-}
 
-.sidebar {
-  /* border: 2px solid var(--secondary); */
-  /* box-shadow: 2px 4px 4px 4px #00000025; */
+/* .sidebar {
+  /* border: 2px solid var(--secondary); 
+  /* box-shadow: 2px 4px 4px 4px #00000025; 
   border-radius: 10px;
   width: 400px;
   height: max-content;
@@ -88,7 +85,7 @@ main {
 
 .sidebar-border {
   border-right: 1px solid var(--main);
-}
+} */
 
 .post {
   border-radius: 10px;

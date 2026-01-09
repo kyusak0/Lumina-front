@@ -19,15 +19,11 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   return (
     <>
       <Header />
-      <main className="flex justify-evenly">
-        <Sidebar />
-        <div className="sidebar-border w-1/4">
-
-        </div>
-        <div className="flex w-full flex-col items-center">
+      <Sidebar />
+      <main className="mt-20 flex pl-35">
+        <div className="w-full">
           {children}
         </div>
-
       </main>
     </>
   );

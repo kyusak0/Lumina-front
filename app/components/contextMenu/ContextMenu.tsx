@@ -96,7 +96,7 @@ export default function ContextMenu({
                     >
                         <div className="flex justify-end">
                             <button onClick={(event) => closeContextMenu(event)}>
-                                ×
+                                ❌
                             </button>
                         </div>
                         <div>

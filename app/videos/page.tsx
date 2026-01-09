@@ -32,16 +32,16 @@ export default function Videos() {
                         1
                     </Popup>
                 </li>
-<li>
-<ContextMenu contextMenuId="1" openContextMenuText="2" secondaryActivatorId='3'>
-    2
-</ContextMenu>
+                <li>
+                    <ContextMenu contextMenuId="1" openContextMenuText="2" secondaryActivatorId='3'>
+                        2
+                    </ContextMenu>
                 </li>
 
                 <li id="3">3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
+                <li className="p-5 bg-green-100">вариант 1</li>
+                <li className="p-5 bg-green-200">вариант 2</li>
+                <li className="p-5 bg-green-300">вариант 3</li>
                 <li>7</li>
                 <li>8</li>
                 <li>9</li>

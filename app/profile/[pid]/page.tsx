@@ -1,13 +1,18 @@
 'use client';
 
-import { Suspense, useState, useEffect} from 'react'
+import { Suspense, useState, useEffect, } from 'react'
+import React from 'react';
 import Link from "next/link";
-import MainLayout from "../layouts/mainLayout";
+import MainLayout from "../../layouts/mainLayout";
 import { useRouter } from "next/navigation";
-import FormAuth from '../components/formAuth/formLog';
-import Api from '../_api/api';
+
+import Api from '../../_api/api';
 import { AxiosError } from 'axios';
-import Loading from '../loading';
+import Loading from '../../loading';
+
+type PageProps = {
+    params: Promise<{pid: string}>
+}
 
 
 interface IUser{
@@ -17,7 +22,8 @@ interface IUser{
 }
 
 
-export default function profile() {
+export default function profile({params}: PageProps) {
+    const {pid} = React.use(params);
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -26,11 +32,15 @@ export default function profile() {
         userName: "",
         email: "",
     });
-    
+    console.log(pid)
+   
+      
     useEffect(() => {
         console.log("useeffect")
         async function fetchData() {
-        const res = await Api.post("/user").then(responce =>{
+        const res = await Api.post("/user", {
+            pid: pid,
+        }).then(responce =>{
             console.log("responce")
             user.id= responce.data.id;
             user.email= responce.data.email;
@@ -38,9 +48,9 @@ export default function profile() {
             setLoading(false);
         }).catch(error =>{
             console.log("error")
-            if(error.status == 401){
+            if(error.status == 401 ||error.status == 419){
                 alert("не авторизован")
-                router.push("/auth")
+                router.push("/login")
             }else{
                 alert("Непредвиденная ошибка: " + error)
             }
@@ -61,6 +71,7 @@ export default function profile() {
         return(
             <MainLayout>
                 <>
+                <p> pid: {pid} </p>
                 <p> id: {user.id} </p>
                 <p> имя: {user.userName}</p>
                 <p> почта: {user.email}</p>

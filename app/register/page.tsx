@@ -4,7 +4,7 @@ import logoImage from '../assets/images/logo.svg';
 import styles from './form.module.css';
 import { useRouter } from "next/navigation";
 import DotPattern from '../components/ui/dotPattern';
-import Loading from '../loading';
+
 
 import { useEffect, useRef, useState } from 'react';
 import Api, { getCSRF } from '../_api/api'
@@ -159,7 +159,7 @@ export default function formAuth() {
                             onChange={handleChange}
                         />
                         <label htmlFor="userName">
-                            Введите никнейм
+                            Введите имя
                         </label>
                     </div>
 

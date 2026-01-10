@@ -4,14 +4,11 @@ import logoImage from '../assets/images/logo.svg';
 import styles from './form.module.css';
 import { useRouter } from "next/navigation";
 import DotPattern from '../components/ui/dotPattern';
-import Loading from '../loading';
+
 
 import { useEffect, useRef, useState } from 'react';
 import Api, { getCSRF } from '../_api/api'
 import { getCookie } from 'cookies-next/client';
-const user = await Api.post("/user").catch(error => {
-    console.log("sss")
-})
 
 export default function formAuth() {
 
@@ -85,23 +82,9 @@ export default function formAuth() {
     const handleChange = (e: any) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
-    const handleRegister = async (e: any) => {
-        e.preventDefault();
-        try {
-            await Api.post("/register", form);
-            const res = await Api.post("/login", {
-                login: form.email || form.userName,
-                password: form.password,
-            });
-
-            router.push("/profile");
-
-        } catch (err: any) {
-            alert(err.response?.data?.message || "Ошибка входа");
-        }
-
-    };
+    
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+       
         e.preventDefault();
         setLoading(true);
 
@@ -111,9 +94,7 @@ export default function formAuth() {
             
         })
         .then((res: any) => {
-            console.log(res)
-            confirm("then")
-            router.push('/profile');
+            router.push(`/profile/{res.data.id}`);
         })
         .catch((err: any) => {
             const message =

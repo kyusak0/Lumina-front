@@ -73,6 +73,17 @@ button {
   max-height: 1000px;
 }
 
+input:is(:-webkit-autofill, :autofill),
+textarea:is(:-webkit-autofill, :autofill),
+select:is(:-webkit-autofill, :autofill),
+input:-internal-autofill-selected,
+textarea:-internal-autofill-selected,
+select:-internal-autofill-selected {
+  color: white;
+  background-color: transparent !important;
+  -webkit-text-fill-color: white !important;
+}
+
 @media screen and (max-width: 600px) {
   .adaptive-block {
     display: block;
@@ -81,13 +92,6 @@ button {
   .web-block {
     display: none;
   }
-}
-
-#fireflies {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
 }
 
 .dot-pattern {

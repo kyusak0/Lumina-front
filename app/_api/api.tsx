@@ -33,6 +33,13 @@ export async function getCSRF() {
   return XSRF
 }
 
-
+export async function getUser( id:number){
+  var user;
+  if(!availabilityOfCSRFToken()){
+    await api.post("/user"),{
+      id: id
+    }
+  }
+} 
 
 export default api;

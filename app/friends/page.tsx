@@ -147,7 +147,11 @@ export default function Friends() {
                 <div className={`${chatListWidth}`}>
                     <div className="flex justify-around items-center">
                         <h2 className="text-lg font-bold my-4">Friends</h2>
-                        <Popup popupId="settingsChat" openPopupText="...">
+                        <Popup popupId="settingsChat" openPopupTrigger={
+                            <button
+                                className="px-5 py-2 rounded-lg border-2 text-green-400 border-green-400 hover:bg-gray-100"
+                            >...
+                            </button>}>
                             <select name="" id="" className=" btn btn-reverse" onChange={(e) => handleSelectWidth(e)}>
                                 <option value='w-2/4'>default</option>
                                 <option value='w-1/4'>1/4</option>
@@ -169,19 +173,19 @@ export default function Friends() {
                             <div key={chat.id}>
                                 <div className="web-block">
                                     <div onClick={() => chatSelect(chat.id)}
-
                                         className={`block px-3 py-5 rounded w-full flex items-center justify-between ${chat.id - 1 === chatId
                                             ? 'bg-blue-100 border border-blue-300'
                                             : 'hover:bg-gray-100'
                                             }`}>
                                         <div> {chat.name} </div>
-
-                                        <ContextMenu contextMenuId={chatId} openContextMenuText="..." secondaryActivator={null}>
-                                            <h3>{chat.name}</h3>
-                                            <button>edit</button>
-                                            <button>delete</button>
-                                            <button>forward</button>
-                                        </ContextMenu>
+                                        <Popup popupId={`edit${chat.id}`}
+                                            openPopupTrigger={
+                                                <button
+                                                    className="px-5 py-2 rounded-lg border-2 text-green-400 border-green-400 hover:bg-gray-100"
+                                                >...
+                                                </button>}>
+                                            edit
+                                        </Popup>
                                     </div>
                                 </div>
                                 <div className="adaptive-block">
@@ -190,18 +194,16 @@ export default function Friends() {
                                         className={`block px-3 py-5 rounded w-full ${chat.id - 1 === chatId
                                             ? 'bg-blue-100 border border-blue-300'
                                             : 'hover:bg-gray-100'
-                                            }`}
-                                    >
-                                        <div
-                                        >
+                                            }`}>
+                                        <div>
                                             {chat.name}
-
-                                            <ContextMenu contextMenuId={chatId} openContextMenuText="..." secondaryActivator={null} >
-                                                <h3>{chat.name}</h3>
-                                                <button>edit</button>
-                                                <button>delete</button>
-                                                <button>forward</button>
-                                            </ContextMenu>
+                                            <Popup popupId={`edit${chat.id}`} openPopupTrigger={
+                                                <button
+                                                    className="px-5 py-2 rounded-lg border-2 text-green-400 border-green-400 hover:bg-gray-100"
+                                                >...
+                                                </button>}>
+                                                edit
+                                            </Popup>
                                         </div>
                                     </Link>
                                 </div>

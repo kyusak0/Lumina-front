@@ -269,3 +269,4 @@
 2025/12/13 11:15:07 [emerg] 8212#10460: CreateDirectory() "C:\lumina\Lumina-front\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
 2025/12/26 19:41:36 [emerg] 18648#12576: CreateDirectory() "C:\lumina\Lumina-front\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
 2026/01/09 18:41:51 [emerg] 9584#1512: CreateDirectory() "C:\lumina\Lumina-front\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2026/01/10 15:20:09 [emerg] 14252#8136: CreateDirectory() "C:\lumina\Lumina-front\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)

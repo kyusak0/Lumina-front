@@ -269,3 +269,4 @@
 2025/12/13 11:15:07 [emerg] 8212#10460: CreateDirectory() "C:\lumina\Lumina-front\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
 2025/12/26 19:41:36 [emerg] 18648#12576: CreateDirectory() "C:\lumina\Lumina-front\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
 2026/01/09 18:41:51 [emerg] 9584#1512: CreateDirectory() "C:\lumina\Lumina-front\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2026/01/14 06:58:09 [error] 6756#21440: *6352 WSARecv() failed (10054: An existing connection was forcibly closed by the remote host) while proxying upgraded connection, client: 127.0.0.1, server: app.localhost.test, request: "GET /_next/webpack-hmr?id=Ly7zrOu4o5Iob4SM9bJvP HTTP/1.1", upstream: "http://127.0.0.1:3000/_next/webpack-hmr?id=Ly7zrOu4o5Iob4SM9bJvP", host: "app.localhost.test"

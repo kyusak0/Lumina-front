@@ -4,6 +4,7 @@ import logoImage from '../assets/images/logo.svg';
 import styles from './form.module.css';
 import { useRouter } from "next/navigation";
 import DotPattern from '../components/ui/dotPattern';
+import { UseAuth } from '../_providers/useAuth';
 
 
 import { useEffect, useRef, useState } from 'react';
@@ -14,7 +15,7 @@ const user = await Api.post("/user").catch(error => {
 })
 
 export default function formAuth() {
-
+    const { user: contextUser, authenticated, loading: authLoading, setUser } = UseAuth()
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -86,53 +87,59 @@ export default function formAuth() {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
     const handleRegister = async (e: any) => {
+        setLoading(true)
         e.preventDefault();
-        try {
-            await Api.post("/register", form);
-            const res = await Api.post("/login", {
-                login: form.email || form.userName,
-                password: form.password,
-            });
+        
+            await Api.post("/register", form)
+            .then((res) =>{
+                if(res.data.message == 'Registration successful'){
+                    handleLogin();
+                }
+                
+            })
+            .catch((err)=>{
+                const message =
+                err?.response?.data?.message ||
+                err?.response?.data?.error
+    
+                alert(message);
+            })
+            .finally(
+                ( )=> {
+                    setLoading(false);
+                }
+            )
+            
 
-            router.push("/profile");
-
-        } catch (err: any) {
-            alert(err.response?.data?.message || "Ошибка входа");
-        }
+        
 
     };
-    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleLogin = async () => {
+       
+        
         setLoading(true);
-    
-        try {
-            const res = await Api.post("/login", {
-                login: form.login,
-                password: form.password,
-            });
-    
-            // Успешный логин (обычно 200 / 204)
-            router.push('/profile');
-    
-        } catch (err: any) {
+
+        const res = await Api.post("/login", {
+            login: form.login,
+            password: form.password,
+            
+        })
+        .then((res: any) => {
+            setUser(res.data)
+            router.push(`/profile/{res.data.id}`);
+        })
+        .catch((err: any) => {
             const message =
                 err?.response?.data?.message ||
-                err?.response?.data?.error ||
-                "Ошибка входа";
+                err?.response?.data?.error
     
             alert(message);
-    
-        } finally {
-            setLoading(false);
-        }
+        })
+        .finally( ( )=> {
+           
+        })
+        
     };
-
-    const [open, setOpen] = useState(false);
-    const handleClick = () => {
-        setOpen(!open);
-    }
-    
-
 
     return (
 
@@ -224,8 +231,10 @@ export default function formAuth() {
                     </div>
 
                     <div className={styles.btns}>
-                        <button type="submit">
-                            Зарегистрироваться
+                   
+                    
+                        <button type="submit" disabled={loading}>
+                        {loading ? 'Зарегестрироваться...' : 'Зарегестрироваться'}
                         </button>
                     </div>
 

@@ -1,121 +1,118 @@
 'use client';
 
-import { Suspense, useState, useEffect, } from 'react'
-import React from 'react';
-import Link from "next/link";
-import MainLayout from "../../layouts/mainLayout";
-import { useRouter } from "next/navigation";
-
-import Api from '../../_api/api';
-import { AxiosError } from 'axios';
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import MainLayout from '../../layouts/mainLayout';
+import { useRouter } from 'next/navigation';
 import Loading from '../../loading';
+import { UseAuth } from '@/app/_providers/useAuth';
+import Api, {getCSRF} from '../../_api/api';
+import { AxiosError } from 'axios';
+import LogoutButton from '@/app/components/ui/logoutButton';
+
+
 
 type PageProps = {
     params: Promise<{pid: string}>
 }
 
-
-interface IUser{
+interface IUser {
     id: string | null;
-    userName: string| null;
-    email: string| null;
+    userName: string | null;
+    email: string | null;
 }
 
 
-export default function profile({params}: PageProps) {
-    const {pid} = React.use(params);
-    const router = useRouter();
+
+export default function Profile({ params }: PageProps) {
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [user, setUser] = useState({
-        id: "",
-        userName: "",
-        email: "",
-    });
-    console.log(pid)
-   
-      
+    const router = useRouter();
+    const [profileUser, setProfileUser] = useState<IUser | null>(null);
+    const [isLoggingOut, setIsLoggingOut] = useState(false)
+    
+    const { pid } = React.use(params); // просто деструктурируем slug
+    const { user: contextUser, authenticated, loading: authLoading, setUser} = UseAuth();
+
     useEffect(() => {
-        console.log("useeffect")
-        async function fetchData() {
-        const res = await Api.post("/user", {
-            pid: pid,
-        }).then(responce =>{
-            console.log("responce")
-            user.id= responce.data.id;
-            user.email= responce.data.email;
-            user.userName= responce.data.userName;
-            setLoading(false);
-        }).catch(error =>{
-            console.log("error")
-            if(error.status == 401 ||error.status == 419){
-                alert("не авторизован")
-                router.push("/login")
-            }else{
-                alert("Непредвиденная ошибка: " + error)
+        async function fetchProfile() {
+            if (!authenticated) {
+                alert('Не авторизован');
+                router.push('/login');
+                return;
             }
-            setLoading(false);
-        }).finally (() => {
-            //выполнение в любом случае
-        })
-        console.log("end")
+
+            // Если pid совпадает с текущим пользователем, берем данные из контекста
+            if (contextUser && contextUser.id === pid) {
+                setProfileUser(contextUser);
+                setLoading(false);
+                return;
+            }
+
+            // Иначе делаем запрос на сервер, чтобы получить чужой профиль
+            try {
+                const res = await Api.post('/user', { pid });
+                setProfileUser({
+                    id: res.data.id,
+                    userName: res.data.userName,
+                    email: res.data.email,
+                });
+            } catch (err) {
+                const error = err as AxiosError;
+                if (error.response?.status === 401 || error.response?.status === 419) {
+                    alert('Не авторизован');
+                    router.push('/login');
+                } else {
+                    alert('Непредвиденная ошибка: ' + error);
+                }
+            } finally {
+                setLoading(false);
+            }
         }
-    
-        fetchData();
-        }, []);
-        if (loading) {
-            // Показываем загрузчик, пока isLoading истинно
-            return <Loading />;
-          }
 
-        return(
-            <MainLayout>
-                <>
-                <p> pid: {pid} </p>
-                <p> id: {user.id} </p>
-                <p> имя: {user.userName}</p>
-                <p> почта: {user.email}</p>
-            </>
-            </MainLayout>
+        if (!authLoading) {
+            fetchProfile();
+        }
+    }, [authLoading, authenticated, contextUser, pid, router]);
+
+    if (loading || authLoading) return <Loading />;
+
+    if (!profileUser) return <p>Профиль не найден</p>;
+
+    const handleLogoutButton = async ()=>{
+        console.log(2)
+        setIsLoggingOut(true)
+    
+       
+            try {
+                await Api.get("/logout").then((res) => {
+                    if(res.data.message =='Logged out'){
+                        console.log("null & push")
+                        router.push("/");
+                        
+                    }
+                }).finally(); 
+                 
+            } catch (err) {
+                console.error(err);
+                alert("Ошибка при выходе");
+            } finally{
+                await getCSRF();
+                console.log("csrf")
+                setIsLoggingOut(false)
+                
+            }
             
-        )
+    }
 
-    
-    //   if (error) {
-    //     return <p>Ошибка: {error.message}</p>;
-    //   }
-    
-    //   return (
-    //     <div>
-    //       {/* Отображение данных */}
-    //       <pre>{JSON.stringify(data, null, 2)}</pre>
-    //     </div>
-    //   );
-    // }
-    
-    // export default MyComponent;
-    
+    return (
+        <MainLayout>
+            <>
+                <p>pid: {pid}</p>
+                <p>id: {profileUser.id}</p>
+                <p>имя: {profileUser.userName}</p>
+                <p>почта: {profileUser.email}</p>
+                <LogoutButton onLoggout={handleLogoutButton}></LogoutButton>
+            </>
+        </MainLayout>
+    );
 }
-    
-    
-
-
-//         function Fallback() {
-//             <>
-//                 <p> имя: Загрузка... </p>
-//                 <p> почта: Загрузка... </p>
-
-//             </>
-//         }
-
-//     return (
-//         <>
-
-//             <MainLayout>
-
-//                 <Suspense fallback={<Fallback />}>
-//                     <ProfileContent />
-//                 </Suspense>
-
-//             </MainLayout>
-//         </>)

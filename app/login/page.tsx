@@ -4,6 +4,7 @@ import logoImage from '../assets/images/logo.svg';
 import styles from './form.module.css';
 import { useRouter } from "next/navigation";
 import DotPattern from '../components/ui/dotPattern';
+import { UseAuth } from '../_providers/useAuth';
 
 
 import { useEffect, useRef, useState } from 'react';
@@ -11,6 +12,8 @@ import Api, { getCSRF } from '../_api/api'
 import { getCookie } from 'cookies-next/client';
 
 export default function formAuth() {
+
+    const { user: contextUser, authenticated, loading: authLoading, setUser } = UseAuth()
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -94,6 +97,7 @@ export default function formAuth() {
             
         })
         .then((res: any) => {
+            setUser(res.data)
             router.push(`/profile/{res.data.id}`);
         })
         .catch((err: any) => {
@@ -108,12 +112,6 @@ export default function formAuth() {
         })
         
     };
-
-    const [open, setOpen] = useState(false);
-    const handleClick = () => {
-        setOpen(!open);
-    }
-    
 
 
     return (

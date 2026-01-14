@@ -6,7 +6,7 @@ import Link from "next/link";
 import Popup from "./components/popup/Popup";
 import { useState } from "react";
 
-getCSRF();
+
 
 export interface Post {
     id: number,

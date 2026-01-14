@@ -1,7 +1,9 @@
-.dot-pattern {
+.dotPattern {
     position: absolute;
     inset: 0;
     pointer-events: none;
+    top: 0;
+    left: 0;
     z-index: 2;
     --mx: 50%;
     --my: 50%;

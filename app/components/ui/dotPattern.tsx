@@ -2,6 +2,9 @@
 import React, { useEffect, useRef } from "react";
 
 
+import styles from './dotPattern.module.css';
+
+
 interface DotPatternProps {
   initialRadius?: number; // радиус по умолчанию
   activeRadius?: number;  // радиус при нажатии
@@ -61,5 +64,5 @@ export default function DotPattern({
     };
   }, [initialRadius, activeRadius]);
 
-  return <div ref={dotPatternRef} className="dot-pattern" aria-hidden="true"></div>;
+  return <div ref={dotPatternRef} className={styles.dotPattern} aria-hidden="true"></div>;
 }

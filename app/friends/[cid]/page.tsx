@@ -257,7 +257,7 @@ export default function Chat({ chat_id }: ChatProps) {
                 <p>Messages' count: {messages.length}</p>
             </div>
 
-            <div className="messages m-auto h-110 mb-4 max-h-180 overflow-y-auto border rounded-lg p-2">
+            <div className="messages m-auto h-110 mb-4 max-h-180 overflow-y-auto border rounded-lg p-2 bg-green-100">
                 {messages.length === 0 ? (
                     <p className="text-gray-500 text-center p-4">No messages yet</p>
                 ) : (
@@ -269,8 +269,8 @@ export default function Chat({ chat_id }: ChatProps) {
                             secondaryActivator={
                                 <div id={`${message.id}`}
                                     className={`p-3 mb-2 rounded ${message.sender_id === senderId
-                                        ? 'bg-blue-100 border-l-4 border-blue-500 ml-8'
-                                        : 'bg-gray-100 border-l-4 border-gray-500 mr-8'
+                                        ? 'bg-green-300 ml-8 rounded-l-2xl'
+                                        : 'bg-white mr-8 rounded-r-2xl'
                                         }`}
 
                                 >

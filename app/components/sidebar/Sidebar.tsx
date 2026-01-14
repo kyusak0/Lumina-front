@@ -22,7 +22,7 @@ export default function Sidebar() {
                 ></div>
                 <div
                     onMouseMove={openSidebar}
-                    className={`duration-300 absolute h-screen bg-white left-0 flex flex-col gap-10 pt-40 ${sidebarOpen ? 'w-1/4 pl-20' : 'w-1/12 pl-10'} `}
+                    className={`duration-300 absolute h-screen bg-white left-0 flex flex-col gap-10 pt-40 text-nowrap ${sidebarOpen ? 'w-1/4 pl-20' : 'w-1/12 pl-10'} `}
                 >
                     <div
                         className="absolute top-25 right-5"
@@ -31,27 +31,27 @@ export default function Sidebar() {
                         {sidebarOpen ? '❌' : '>'}
                     </div>
                     <Link href="/" className={`${currentPath == '/' ? 'text-green-400' : ''} hover:text-green-300`}>
-                        <div className="flex gap-5 ">
+                        <div className="flex gap-10 ">
                             <span> 🏠 </span>
-                            <span className={`${sidebarOpen ? '' : 'duration-300 opacity-0'}`}>Главная</span>
+                            <span className={`${sidebarOpen ? '' : 'hidden'}`}>Главная</span>
                         </div>
                     </Link>
                     <Link href="/friends" className={`${currentPath == '/friends' ? 'text-green-400' : ''} hover:text-green-300`}>
-                        <div className="flex gap-5 ">
+                        <div className="flex gap-10 ">
                             <span> 💬 </span>
-                            <span className={`${sidebarOpen ? '' : 'duration-300 opacity-0'}`}>Чаты</span>
+                            <span className={`${sidebarOpen ? '' : 'hidden'}`}>Чаты</span>
                         </div>
                     </Link>
                     <Link href="/videos" className={`${currentPath == '/videos' ? 'text-green-400' : ''} hover:text-green-300`}>
-                        <div className="flex gap-5 ">
+                        <div className="flex gap-10">
                             <span> 📹 </span>
-                            <span className={`${sidebarOpen ? '' : 'duration-300 opacity-0'}`}>Видео-лента</span>
+                            <span className={`${sidebarOpen ? '' : 'hidden'}`}>Видео-лента</span>
                         </div>
                     </Link>
                     <Link href="/profile" className={`${currentPath == '/profile' ? 'text-green-400' : ''} hover:text-green-300`}>
-                        <div className="flex gap-5 ">
+                        <div className="flex gap-10 ">
                             <span> 👤 </span>
-                            <span className={`${sidebarOpen ? '' : 'duration-300 opacity-0'}`}>Профиль</span>
+                            <span className={`${sidebarOpen ? '' : 'hidden'}`}>Профиль</span>
                         </div>
                     </Link>
                 </div>

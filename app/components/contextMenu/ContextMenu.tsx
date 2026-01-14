@@ -26,7 +26,7 @@ export default function ContextMenu({
     const openContextMenu = (event: MouseEvent | MouseEvent | PointerEvent) => {
         setContext({
             visible: true,
-            x: event.clientX,
+            x: event.clientX-200,
             y: event.clientY,
         });
     };

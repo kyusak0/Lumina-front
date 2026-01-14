@@ -7,8 +7,9 @@ import DotPattern from '../components/ui/dotPattern';
 
 
 import { useEffect, useRef, useState } from 'react';
-import Api, { getCSRF } from '../_api/api'
+import { apiClient, LoginData } from '../utils/api'
 import { getCookie } from 'cookies-next/client';
+import Link from 'next/link';
 
 export default function formAuth() {
 
@@ -70,100 +71,90 @@ export default function formAuth() {
     }, []);
 
     const router = useRouter();
+    const [loginDisabled, setLoginDisabled] = useState(true);
 
-    const [form, setForm] = useState({
-        userName: "",
+    const [form, setForm] = useState<LoginData>({
         email: "",
-        login: "",
         password: "",
-        rePassword: "",
-        policy: Boolean,
     });
     const handleChange = (e: any) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+
+        const updatedData = { ...form, [name]: value }
+
+        if (updatedData.email.length > 0 && updatedData.password.length > 0) {
+            setLoginDisabled(false);
+        } else {
+            setLoginDisabled(true);
+        }
+
+        setForm(updatedData);
+
+
     };
-    
+
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-       
+
         e.preventDefault();
         setLoading(true);
-
-        const res = await Api.post("/login", {
-            login: form.login,
-            password: form.password,
-            
-        })
-        .then((res: any) => {
-            router.push(`/profile/{res.data.id}`);
-        })
-        .catch((err: any) => {
-            const message =
-                err?.response?.data?.message ||
-                err?.response?.data?.error
-    
-            alert(message);
-        })
-        .finally( ( )=> {
+        try {
+            const res = await apiClient.login(form);
+            // router.push(`/profile/${res}`);
+        } catch (err: any) {
+            console.log(err.message);
+        } finally {
             setLoading(false);
-        })
-        
+        }
     };
-
-    const [open, setOpen] = useState(false);
-    const handleClick = () => {
-        setOpen(!open);
-    }
-    
-
 
     return (
 
         <div className={styles.auth_page} id="auth-page">
-            <canvas ref={canvasRef} id="fireflies" />
+            <canvas ref={canvasRef} id="fireflies" className='w-full h-screen' />
             <DotPattern initialRadius={140} activeRadius={220} />
-
-
-            <div className={styles.auth_container}>
+            <div className="flex items-center justify-center w-full h-screen fixed top-0">
                 <div className={styles.auth_panel} >
-
-                    <div className={styles.auth_left}>
-
+                    <div className='w-3/5'>
                         <h2 className='text-4xl mb-8 text-center'>Войти</h2>
-                        <form onSubmit={handleLogin}>
-                            <div className={styles.input_wrappers}>
-                                <div className={styles.input_wrapper}>
-                                    <input placeholder='' type="text" name="login" id="login" onChange={handleChange} />
-                                    <label htmlFor="">Введите почту или никнейм</label>
-                                </div>
-                                <div className={styles.input_wrapper}>
-                                    <input placeholder='' type="text" name="password" id="password" onChange={handleChange} />
-                                    <label htmlFor="">Введите пароль</label>
-                                </div>
-                                <div className={styles.btns}>
-                                    <button type="submit" disabled={loading}>
-                                    {loading ? 'Вход...' : 'Войти'}
-                                    </button>
-                                    <a href="#">Забыли пароль?</a>
-                                </div>
-                            </div>
+                        <form onSubmit={handleLogin} className='flex flex-col gap-5'>
+
+                            <label htmlFor="email">Введите почту</label>
+                            <input
+                                placeholder=''
+                                type="email"
+                                name="email"
+                                id="email"
+                                className='p-3 border border-gray-300 rounded flex-1 focus:outline-none focus:border-green-500'
+                                onChange={handleChange} />
+                            <label htmlFor="password">Введите пароль</label>
+                            <input
+                                placeholder=''
+                                className='p-3 border border-gray-300 rounded flex-1 focus:outline-none focus:border-green-500'
+                                type="password"
+                                name="password"
+                                id="password"
+                                onChange={handleChange}
+                            />
+                            <button type="submit" disabled={loginDisabled} className='w-full px-5 py-2 rounded-lg text-white bg-green-400 disabled:bg-gray-300 hover:bg-green-500'>
+                                {loading ? 'Вход...' : 'Войти'}
+                            </button>
+                            <Link href="/forgot-password" className='hover:text-green-400'>Забыли пароль?</Link>
                         </form>
                     </div>
-                    <div className={styles.auth_right}>
-                        <div className={styles.logo_container}>
+                    <div className='w-2/5 flex flex-col justify-between py-5 items-center border-l-1 border-gray-200 pl-10'>
+                        <Link href='/'>
                             <Image
                                 src={logoImage}
                                 alt="Lumina's logo"
                                 className='logo'
-                                title='На главную' />
-                            <p>Нет аккаунта? <a href="/register">Зарегестрироваться</a> </p>
-                        </div>
-
-
-
+                                title='На главную'
+                            />
+                        </Link>
+                        <Link href="/register" className='text-green-400 text-center'>Нет аккаунта? Зарегестрироваться</Link>
                     </div>
-                </div>
-            </div>
-        </div>
+                </div >
+            </div >
+        </div >
 
     );
 }
